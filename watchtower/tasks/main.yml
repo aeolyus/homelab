@@ -1,0 +1,7 @@
+- name: Watchtower container present
+  docker_container:
+    name: watchtower
+    image: containrrr/watchtower
+    restart_policy: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
