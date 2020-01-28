@@ -1,4 +1,5 @@
 - name: Master playbook
   hosts: all:!localhost
+  become: yes
   roles:
     - swap

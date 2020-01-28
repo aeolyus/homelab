@@ -1,5 +1,4 @@
 - name: Check swap file
-  become: yes
   block:
   - name: Check if swap file exists
     stat:
@@ -7,24 +6,20 @@
     register: swap_file_check
 
   - name: Create swap file
-    become: yes
     command: fallocate -l {{swap_size}} {{swap_file}}
     when: not swap_file_check.stat.exists
 
   - name: Change swap file permissions
-    become: yes
     file: path="{{swap_file}}"
           owner=root
           group=root
           mode=0600
 
   - name: Format swap file
-    become: yes
     command: "mkswap {{swap_file}}"
     when: not swap_file_check.stat.exists
 
   - name: Write swap entry in fstab
-    become: yes
     mount: name=none
            src={{swap_file}}
            fstype=swap
@@ -34,12 +29,10 @@
            state=present
 
   - name: Turn on swap
-    become: yes
     command: swapon -a
     when: not swap_file_check.stat.exists
 
   - name: Set swappiness
-    become: yes
     sysctl:
       name: vm.swappiness
       value: "{{swappiness}}"
