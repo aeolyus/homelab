@@ -1,0 +1,5 @@
+swap_file: "/swapfile"
+swap_size: "{{ ((ansible_memtotal_mb | int * 2)
+                if (ansible_memtotal_mb | int <= 2048)
+                else ansible_memtotal_mb | int) }}M"
+swappiness: "1"
