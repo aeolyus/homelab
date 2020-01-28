@@ -1,0 +1,14 @@
+- name: Check docker and pip is installed
+  package:
+    name: [docker.io, python3-pip]
+    state: present
+
+- name: Install docker module for python
+  pip:
+    name: docker
+
+- name: Ensure docker service is started and enabled
+  service:
+    name: docker
+    state: started
+    enabled: yes
