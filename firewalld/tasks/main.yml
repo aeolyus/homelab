@@ -9,6 +9,7 @@
     service: "{{ item }}"
     permanent: yes
     state: enabled
+  notify: restart firewalld
 
 - name: Open ports
   loop: "{{ firewalld_ports }}"
@@ -16,3 +17,4 @@
     port: "{{ item }}"
     permanent: yes
     state: enabled
+  notify: restart firewalld
