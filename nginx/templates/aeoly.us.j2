@@ -1,0 +1,25 @@
+limit_req_zone $binary_remote_addr zone=http:10m rate=10r/s;
+
+server {
+  listen 80 ;
+  listen [::]:80 ;
+  limit_req zone=http burst=10;
+  server_name {{ hostname }};
+
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl ipv6only=on;
+  limit_req zone=http burst=10;
+  server_name {{ hostname }};
+
+  ssl_certificate /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ hostname }}/privkey.pem;
+
+  location / {
+    proxy_pass https://aeolyus.github.io;
+  }
+}
+

@@ -1,0 +1,43 @@
+- name: Check nginx is installed
+  package:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Setup firewall
+  include_role:
+    role: firewalld
+
+- name: Get letsencrypt certs
+  include_role:
+    role: letsencrypt
+
+- name: Remove default file
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: Template nginx configuration file
+  copy:
+    src: "{{ nginx_conf_file }}"
+    dest: "/etc/nginx/nginx.conf"
+  register: nginx_conf_changed
+
+- name: Check nginx site configuration
+  template:
+    src: "{{ hostname }}.j2"
+    dest: "/etc/nginx/sites-available/{{ hostname }}"
+
+- name: Ensure nginx site symlink
+  file:
+    src: "/etc/nginx/sites-available/{{ hostname }}"
+    dest: "/etc/nginx/sites-enabled/{{ hostname }}"
+    state: link
+  register: hostname_conf_changed
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+  when: nginx_conf_changed.changed or hostname_conf_changed.changed
