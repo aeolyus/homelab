@@ -2,6 +2,7 @@
   package:
     name: [docker.io, python3-pip]
     state: present
+    update_cache: yes
 
 - name: Install docker module for python
   pip:

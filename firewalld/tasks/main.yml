@@ -2,6 +2,7 @@
   package:
     name: firewalld
     state: present
+    update_cache: yes
 
 - name: Open service ports
   loop: "{{ firewalld_services }}"
