@@ -3,6 +3,7 @@
     name: firewalld
     state: present
     update_cache: yes
+  register: firewalld_installed
 
 - name: Open service ports
   loop: "{{ firewalld_services }}"
@@ -10,7 +11,7 @@
     service: "{{ item }}"
     permanent: yes
     state: enabled
-  notify: restart firewalld
+  register: firewalld_services_changed
 
 - name: Open ports
   loop: "{{ firewalld_ports }}"
@@ -18,4 +19,11 @@
     port: "{{ item }}"
     permanent: yes
     state: enabled
-  notify: restart firewalld
+  register: firewalld_ports_changed
+
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes
+  when: firewalld_installed.changed or firewalld_services_changed.changed or firewalld_ports_changed.changed
