@@ -1,4 +1,5 @@
 domain: aeoly.us
 hostname: "{{ domain }}"
-nginx_conf_file: nginx.conf
+nginx_conf_file: "nginx.conf"
+nginx_template_file: "default.j2"
 firewalld_services: ["http", "https"]

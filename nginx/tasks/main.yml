@@ -25,23 +25,27 @@
   copy:
     src: "{{ nginx_conf_file }}"
     dest: "/etc/nginx/nginx.conf"
-  register: nginx_conf_changed
+  register: nginx_conf
 
 - name: Check nginx site configuration
   template:
-    src: "{{ hostname }}.j2"
+    src: "{{ nginx_template_file }}"
     dest: "/etc/nginx/sites-available/{{ hostname }}"
+  register: nginx_template
 
 - name: Ensure nginx site symlink
   file:
     src: "/etc/nginx/sites-available/{{ hostname }}"
     dest: "/etc/nginx/sites-enabled/{{ hostname }}"
     state: link
-  register: hostname_conf_changed
+  register: nginx_symlink
 
 - name: Restart nginx
   service:
     name: nginx
     state: restarted
     enabled: yes
-  when: nginx_conf_changed.changed or hostname_conf_changed.changed
+  when: >
+    nginx_template.changed or
+    nginx_symlink.changed or
+    nginx_conf.changed

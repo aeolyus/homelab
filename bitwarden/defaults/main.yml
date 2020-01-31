@@ -1,1 +1,2 @@
+nginx_template_file: "vault.j2"
 hostname: "vault.{{ domain }}"

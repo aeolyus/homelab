@@ -1,6 +1,7 @@
 - name: Set variables
   set_fact:
     hostname: "{{ hostname }}"
+    nginx_template_file: "{{ nginx_template_file }}"
 
 - name: Bitwarden container present
   docker_container:
