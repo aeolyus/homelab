@@ -2,8 +2,6 @@
   hosts: all:!localhost
   become: yes
   roles:
-    - role: swap
-    - role: nginx
-      vars:
-        - firewalld_services: ["http", "https"]
-    - role: watchtower
+    - swap
+    - nginx
+    - watchtower
