@@ -1,2 +1,4 @@
-hostname: aeoly.us
+domain: aeoly.us
+hostname: "{{ domain }}"
 nginx_conf_file: nginx.conf
+firewalld_services: ["http", "https"]

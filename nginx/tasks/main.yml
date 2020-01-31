@@ -1,3 +1,7 @@
+- name: Set variables
+  set_fact:
+    firewalld_services: "{{ firewalld_services }}"
+
 - name: Check nginx is installed
   package:
     name: nginx
