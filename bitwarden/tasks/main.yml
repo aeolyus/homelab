@@ -1,0 +1,18 @@
+- name: Set variables
+  set_fact:
+    hostname: "{{ hostname }}"
+
+- name: Bitwarden container present
+  docker_container:
+    name: bitwarden
+    image: bitwardenrs/server
+    restart_policy: unless-stopped
+    ports:
+      - "3011:80"
+      - "3012:3012"
+    volumes:
+      - "/data/bw-data/:/data/"
+
+- name: Setup bitwarden nginx conf
+  include_role:
+    name: nginx
