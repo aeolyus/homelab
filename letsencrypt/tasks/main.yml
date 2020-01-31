@@ -14,5 +14,5 @@
   register: cert
 
 - name: Generate new certificate for domain if one doesn't exist.
-  shell: "certbot --nginx --noninteractive --agree-tos --email {{ certbot_admin_email }} -d {{ hostname }}"
+  shell: "certbot certonly --nginx --noninteractive --agree-tos --email {{ certbot_admin_email }} -d {{ hostname }}"
   when: not cert.stat.exists
