@@ -1,8 +1,3 @@
-- name: Set variables
-  set_fact:
-    hostname: "{{ hostname }}"
-    nginx_template_file: "{{ nginx_template_file }}"
-
 - name: Bitwarden container present
   docker_container:
     name: bitwarden
@@ -17,3 +12,6 @@
 - name: Setup bitwarden nginx conf
   include_role:
     name: nginx
+  vars:
+    hostname: "vault.{{ domain }}"
+    nginx_template_file: "vault"
