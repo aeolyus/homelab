@@ -1,2 +1,0 @@
-nginx_template_file: "vault"
-hostname: "vault.{{ domain }}"
