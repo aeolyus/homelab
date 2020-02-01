@@ -16,10 +16,24 @@
     dns_servers: [127.0.0.1, 1.1.1.1]
     env:
       TZ: "America/Los_Angeles"
-      WEBPASSWORD: "NOTAVERYGOODPASSWORD"
       DNS1: "1.1.1.1"
       DNS2: "1.0.0.1"
       DNSSEC: "True"
+  register: pihole_container
+
+- name: Generate pihole password
+  set_fact:
+    pihole_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
+  when: pihole_container.changed
+
+- name: Set pihole password
+  shell: "docker exec pihole pihole -a -p {{ pihole_password }}"
+  when: pihole_container.changed
+
+- debug:
+    msg: "Pihole password: {{ pihole_password }}"
+  changed_when: true
+  when: pihole_container.changed
 
 - name: Setup pihole nginx conf
   include_role:
