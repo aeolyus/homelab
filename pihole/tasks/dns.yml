@@ -1,0 +1,10 @@
+- name: Disable systemd-resolved
+  systemd:
+    name: systemd-resolved
+    state: stopped
+    enabled: no
+
+- name: Change internal dns to cloudflare
+  copy:
+    src: resolv.conf
+    dest: /etc/resolv.conf

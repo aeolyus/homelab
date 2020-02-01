@@ -1,0 +1,4 @@
+nginx_template_file: "dns"
+hostname: "dns.{{ domain }}"
+firewalld_services: ["dns"]
+firewalld_ports: ["853/tcp"]

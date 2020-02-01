@@ -1,0 +1,17 @@
+upstream dns-servers {
+  server 127.0.0.1:53;
+}
+
+server {
+  listen 853 ssl;
+  ssl_certificate /etc/letsencrypt/live/dns.{{ domain }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/dns.{{ domain }}/privkey.pem;
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+  ssl_protocols        TLSv1.2 TLSv1.3;
+  ssl_ciphers          HIGH:!aNULL:!MD5;
+  ssl_handshake_timeout    10s;
+  ssl_session_cache        shared:SSL:20m;
+
+  proxy_pass dns-servers;
+}
+

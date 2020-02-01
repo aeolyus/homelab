@@ -1,0 +1,32 @@
+- name: Setup DNS
+  import_tasks: dns.yml
+
+- name: Pihole container present
+  docker_container:
+    name: pihole
+    image: pihole/pihole
+    restart_policy: unless-stopped
+    ports:
+      - "8080:80"
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - "/data/pihole-data/etc-pihole/:/etc/pihole/"
+      - "/data/pihole-data/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+    dns_servers: [127.0.0.1, 1.1.1.1]
+    env:
+      TZ: "America/Los_Angeles"
+      WEBPASSWORD: "NOTAVERYGOODPASSWORD"
+      DNS1: "1.1.1.1"
+      DNS2: "1.0.0.1"
+      DNSSEC: "True"
+
+- name: Setup pihole nginx conf
+  include_role:
+    name: nginx
+  vars:
+    hostname: "dns.{{ domain }}"
+    nginx_template_file: "dns"
+    nginx_stream_file: "dns-over-tls"
+    firewalld_services: ["dns"]
+    firewalld_ports: ["853/tcp"]
