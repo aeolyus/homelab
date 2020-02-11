@@ -1,0 +1,9 @@
+- name: Node exporter container present
+  docker_container:
+    name: node_exporter
+    image: prom/node-exporter
+    restart_policy: unless-stopped
+    ports:
+      - "9100:9100"
+    volumes:
+      - "/:/host:ro,rslave"

@@ -1,0 +1,1 @@
+prometheus_exporters: ["node_exporter"]

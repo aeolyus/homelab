@@ -1,0 +1,19 @@
+- name: Check prometheus config
+  copy:
+    src: "prometheus.yml"
+    dest: "/data/prometheus.yml"
+
+- name: Prometheus container present
+  docker_container:
+    name: prometheus
+    image: prom/prometheus
+    restart_policy: unless-stopped
+    network_mode: host
+    ports:
+      - "9090:9090"
+    volumes:
+      - "/data/prometheus.yml:/etc/prometheus/prometheus.yml"
+
+- name: Check exporters
+  include_tasks: "{{ item }}.yml"
+  loop: "{{ prometheus_exporters }}"
