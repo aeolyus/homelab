@@ -7,4 +7,5 @@ nginx        > webserver, reverse proxy, ssl termination (with Let's Encrypt)
 bitwarden    > password manager
 pihole       > DNS sinkhole for adblocking
 watchtower   > automated docker container base image updates
+prometheus   > monitoring system
 ```
