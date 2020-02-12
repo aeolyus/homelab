@@ -21,7 +21,7 @@
 
 - name: Template nginx configuration file
   copy:
-    src: "{{ nginx_conf_file }}"
+    src: "nginx.conf"
     dest: "/etc/nginx/nginx.conf"
   register: nginx_conf
 
