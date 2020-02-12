@@ -9,8 +9,6 @@
     image: prom/prometheus
     restart_policy: unless-stopped
     network_mode: host
-    ports:
-      - "9090:9090"
     volumes:
       - "/data/prometheus.yml:/etc/prometheus/prometheus.yml"
 
