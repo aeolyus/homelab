@@ -1,2 +1,2 @@
-firewalld_services: ["ssh"]
+firewalld_services: []
 firewalld_ports: []

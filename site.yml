@@ -1,7 +1,9 @@
 - name: Master playbook
   hosts: all:!localhost
   become: yes
+  gather_facts: no
   roles:
+    - ssh
     - swap
     - nginx
     - watchtower
