@@ -7,10 +7,16 @@
   docker_container:
     name: prometheus
     image: prom/prometheus
+    user: root
     restart_policy: unless-stopped
     network_mode: host
     volumes:
       - "/data/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "/data/prometheus:/prometheus"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=1000y'
+      - '--storage.tsdb.retention.size=20GB'
 
 - name: Check exporters
   include_tasks: "{{ item }}.yml"
