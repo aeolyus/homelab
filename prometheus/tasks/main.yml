@@ -1,7 +1,12 @@
+- name: Create prometheus directory
+  file:
+    path: /data/prometheus
+    state: directory
+
 - name: Check prometheus config
   copy:
     src: "prometheus.yml"
-    dest: "/data/prometheus.yml"
+    dest: "/data/prometheus/prometheus.yml"
 
 - name: Prometheus container present
   docker_container:
@@ -11,10 +16,9 @@
     restart_policy: unless-stopped
     network_mode: host
     volumes:
-      - "/data/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "/data/prometheus:/prometheus"
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=1000y'
       - '--storage.tsdb.retention.size=20GB'
 
