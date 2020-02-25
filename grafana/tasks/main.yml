@@ -1,0 +1,33 @@
+- name: Grafana container present
+  docker_container:
+    name: grafana
+    image: grafana/grafana
+    restart_policy: unless-stopped
+    network_mode: host
+    env:
+      GF_AUTH_HIDE_LOGIN_FORM: "{{ gf_auth.hide_login_form }}"
+      GF_AUTH_ANONYMOUS_ENABLED: "{{ gf_auth.anonymous_enabled }}"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "{{ gf_auth.anonymous_org_role }}"
+      GF_ALERTING_ENABLED: " {{ gf_alerting.enabled }}"
+  register: grafana_container
+
+- name: Generate grafana password
+  set_fact:
+    grafana_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
+  when: grafana_container.changed
+
+- name: Set grafana password
+  shell: "docker exec grafana grafana-cli admin reset-admin-password {{ grafana_password }}"
+  when: grafana_container.changed
+
+- debug:
+    msg: "Grafana password: {{ grafana_password }}"
+  changed_when: true
+  when: grafana_container.changed
+
+- name: Setup grafana nginx conf
+  include_role:
+    name: nginx
+  vars:
+    hostname: "monitor.{{ domain }}"
+    nginx_template_file: "monitor"

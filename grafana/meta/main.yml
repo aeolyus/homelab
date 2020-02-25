@@ -1,0 +1,5 @@
+dependencies:
+  - role: docker
+  - role: firewalld
+    vars:
+      firewalld_ports: ["3000/tcp"]

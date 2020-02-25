@@ -1,0 +1,22 @@
+server {
+  listen 80 ;
+  listen [::]:80 ;
+  server_name monitor.*;
+  return 301 https://$host$request_uri;
+  limit_req zone=http burst=10;
+}
+
+server {
+  listen 443 ssl http2;
+  server_name monitor.*;
+
+  ssl_certificate /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ hostname }}/privkey.pem;
+
+  limit_req zone=http burst=10;
+
+  location / {
+    proxy_pass http://127.0.0.1:3000;
+  }
+}
+

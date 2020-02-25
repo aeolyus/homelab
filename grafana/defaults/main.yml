@@ -1,0 +1,6 @@
+gf_auth:
+  hide_login_form: "true"
+  anonymous_enabled: "true"
+  anonymous_org_role: "Viewer"
+gf_alerting:
+  enabled: "false"
