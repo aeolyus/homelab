@@ -1,9 +1,9 @@
-limit_req_zone $binary_remote_addr zone=http:10m rate=10r/s;
+limit_req_zone $binary_remote_addr zone=http:10m rate=100r/s;
 
 server {
   listen 80 ;
   listen [::]:80 ;
-  limit_req zone=http burst=10;
+  limit_req zone=http burst=100;
   server_name {{ hostname }};
 
   return 301 https://$host$request_uri;
@@ -12,7 +12,7 @@ server {
 server {
   listen 443 ssl;
   listen [::]:443 ssl ipv6only=on;
-  limit_req zone=http burst=10;
+  limit_req zone=http burst=100;
   server_name {{ hostname }};
 
   ssl_certificate /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;

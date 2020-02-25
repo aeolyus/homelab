@@ -3,7 +3,7 @@ server {
   listen [::]:80;
   server_name vault.*;
   return 301 https://$host$request_uri;
-  limit_req zone=http burst=10;
+  limit_req zone=http burst=100;
 }
 
 server {
@@ -13,7 +13,7 @@ server {
   ssl_certificate /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/{{ hostname }}/privkey.pem;
 
-  limit_req zone=http burst=10;
+  limit_req zone=http burst=100;
 
   # Allow large attachments
   client_max_body_size 128M;

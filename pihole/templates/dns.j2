@@ -3,7 +3,7 @@ server {
   listen [::]:80;
   server_name dns.*;
   return 301 https://$host$request_uri;
-  limit_req zone=http burst=10;
+  limit_req zone=http burst=100;
 }
 
 server {
@@ -13,7 +13,7 @@ server {
   ssl_certificate /etc/letsencrypt/live/dns.{{ domain }}/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/dns.{{ domain }}/privkey.pem;
 
-  limit_req zone=http burst=10;
+  limit_req zone=http burst=100;
 
   location / {
     proxy_pass http://127.0.0.1:8080;
