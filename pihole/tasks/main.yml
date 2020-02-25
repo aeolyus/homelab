@@ -11,8 +11,8 @@
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - "/data/pihole-data/etc-pihole/:/etc/pihole/"
-      - "/data/pihole-data/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+      - "/data/pihole/etc-pihole/:/etc/pihole/"
+      - "/data/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/"
     dns_servers: [127.0.0.1, 1.1.1.1]
     env:
       TZ: "America/Los_Angeles"

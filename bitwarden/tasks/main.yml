@@ -7,7 +7,7 @@
       - "3011:80"
       - "3012:3012"
     volumes:
-      - "/data/bw-data/:/data/"
+      - "/data/bitwarden/:/data/"
 
 - name: Setup bitwarden nginx conf
   include_role:
