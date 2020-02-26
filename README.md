@@ -8,4 +8,5 @@ bitwarden    > password manager
 pihole       > DNS sinkhole for adblocking
 watchtower   > automated docker container base image updates
 prometheus   > monitoring system
+grafana      > analytics and graph composer
 ```
