@@ -8,6 +8,8 @@
       - "3012:3012"
     volumes:
       - "/data/bitwarden/:/data/"
+    env:
+      DOMAIN: "https://vault.{{ domain }}"
 
 - name: Setup bitwarden nginx conf
   include_role:
