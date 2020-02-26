@@ -31,3 +31,13 @@
   vars:
     hostname: "monitor.{{ domain }}"
     nginx_template_file: "monitor"
+
+- name: Add prometheus datasource
+  grafana_datasource:
+    name: "prometheus"
+    ds_type: "prometheus"
+    ds_url: "http://localhost:9090"
+    grafana_url: "https://monitor.{{ domain }}"
+    grafana_user: "admin"
+    grafana_password: "{{ grafana_password }}"
+  when: grafana_container.changed

@@ -9,5 +9,4 @@
     - watchtower
     - bitwarden
     - pihole
-    - prometheus
     - grafana
