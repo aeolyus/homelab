@@ -1,9 +1,15 @@
 - name: Node exporter container present
   docker_container:
-    name: node_exporter
+    name: node-exporter
     image: prom/node-exporter
     restart_policy: unless-stopped
     ports:
       - "9100:9100"
     volumes:
-      - "/:/host:ro,rslave"
+      - "/proc:/host/proc"
+      - "/sys:/host/sys"
+      - "/:/rootfs"
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.ignored-mount-points=\"^/(sys|proc|dev|host|etc)($|/)\""
