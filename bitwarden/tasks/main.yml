@@ -1,3 +1,31 @@
+
+- name: Check bitwarden env
+  stat:
+    path: "/data/bitwarden/.env"
+  register: bitwarden_env
+
+- name: Create bitwarden directory
+  file:
+    path: "/data/bitwarden"
+    state: directory
+  when: not bitwarden_env.stat.exists
+
+- name: Generate bitwarden admin token
+  set_fact:
+    bitwarden_admin_token: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
+  when: not bitwarden_env.stat.exists
+
+- debug:
+    msg: "Bitwarden admin token: {{ bitwarden_admin_token }}"
+  changed_when: true
+  when: not bitwarden_env.stat.exists
+
+- name: Template bitwarden env
+  template:
+    src: "env.j2"
+    dest: "/data/bitwarden/.env"
+  when: not bitwarden_env.stat.exists
+
 - name: Bitwarden container present
   docker_container:
     name: bitwarden
@@ -8,8 +36,7 @@
       - "3012:3012"
     volumes:
       - "/data/bitwarden/:/data/"
-    env:
-      DOMAIN: "https://vault.{{ domain }}"
+    env_file: "/data/bitwarden/.env"
 
 - name: Setup bitwarden nginx conf
   include_role:
