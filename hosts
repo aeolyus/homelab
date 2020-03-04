@@ -1,0 +1,13 @@
+[prod]
+aeoly.us
+
+[dev]
+ifstatementsarenot.ml domain=ifstatementsarenot.ml
+ifstatementsarejust.ml domain=ifstatementsarejust.ml
+
+[prod:vars]
+domain=aeoly.us
+ansible_user=ubuntu
+
+[dev:vars]
+ansible_user=ubuntu
