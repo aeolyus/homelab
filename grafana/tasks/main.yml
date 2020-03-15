@@ -2,8 +2,11 @@
   docker_container:
     name: grafana
     image: grafana/grafana
+    user: root
     restart_policy: unless-stopped
     network_mode: host
+    volumes:
+      - "/data/grafana/:/var/lib/grafana"
     env:
       GF_AUTH_HIDE_LOGIN_FORM: "{{ gf_auth.hide_login_form }}"
       GF_AUTH_ANONYMOUS_ENABLED: "{{ gf_auth.anonymous_enabled }}"
