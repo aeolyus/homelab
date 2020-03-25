@@ -1,0 +1,30 @@
+- name: Setup dashboard provider directory
+  file:
+    path: "/data/grafana/provisioning/dashboards"
+    state: directory
+
+- name: Setup dashboards directory
+  file:
+    path: "/data/grafana/dashboards"
+    state: directory
+
+- name: Setup dashboard provider
+  copy:
+    src: "dashboard_provider.yml"
+    dest: "/data/grafana/provisioning/dashboards/dashboard_provider.yml"
+
+- name: Setup home dashboard
+  copy:
+    src: "home.json"
+    dest: "/data/grafana/dashboards/home.json"
+
+- name: Setup nginx dashboard
+  get_url:
+    url: "https://git.io/JvSCB"
+    dest: "/data/grafana/dashboards/nginx.json"
+
+- name: Replace ${DS_PROMETHEUS} with prometheus in nginx dashboard
+  replace:
+    path: "/data/grafana/dashboards/nginx.json"
+    regexp: "\\${DS_PROMETHEUS}"
+    replace: "prometheus"

@@ -1,3 +1,6 @@
+- name: Setup grafana dashboard
+  import_tasks: dashboards.yml
+
 - name: Grafana container present
   docker_container:
     name: grafana
@@ -12,6 +15,7 @@
       GF_AUTH_ANONYMOUS_ENABLED: "{{ gf_auth.anonymous_enabled }}"
       GF_AUTH_ANONYMOUS_ORG_ROLE: "{{ gf_auth.anonymous_org_role }}"
       GF_ALERTING_ENABLED: " {{ gf_alerting.enabled }}"
+      GF_PATHS_PROVISIONING: "/var/lib/grafana/provisioning"
   register: grafana_container
 
 - name: Generate grafana password
@@ -36,18 +40,6 @@
     grafana_url: "http://localhost:3000"
     grafana_user: "admin"
     grafana_password: "{{ grafana_password }}"
-  when: grafana_container.changed
-
-- name: Setup home dashboard
-  uri:
-    url: "http://localhost:3000/api/dashboards/db"
-    user: admin
-    password: "{{ grafana_password }}"
-    method: POST
-    body: "{{ lookup('file', 'dashboard.json') }}"
-    force_basic_auth: yes
-    status_code: 200
-    body_format: json
   when: grafana_container.changed
 
 - name: Set preferred home dashboard
