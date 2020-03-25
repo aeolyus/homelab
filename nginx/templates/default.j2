@@ -1,8 +1,8 @@
 limit_req_zone $binary_remote_addr zone=http:10m rate=100r/s;
 
 server {
-  listen 80 ;
-  listen [::]:80 ;
+  listen 80;
+  listen [::]:80;
   limit_req zone=http burst=100;
   server_name {{ hostname }};
 
@@ -23,3 +23,11 @@ server {
   }
 }
 
+server {
+  listen 8080;
+  listen [::]:8080;
+
+  location /stub_status {
+    stub_status;
+  }
+}

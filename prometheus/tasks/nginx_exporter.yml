@@ -1,0 +1,8 @@
+- name: Nginx exporter container present
+  docker_container:
+    name: nginx-exporter
+    image: nginx/nginx-prometheus-exporter
+    restart_policy: unless-stopped
+    network_mode: host
+    command:
+      - '--nginx.scrape-uri="http://localhost:8080/stub_status"'

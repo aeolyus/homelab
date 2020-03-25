@@ -7,7 +7,7 @@
     image: pihole/pihole
     restart_policy: unless-stopped
     ports:
-      - "8080:80"
+      - "31415:80"
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
