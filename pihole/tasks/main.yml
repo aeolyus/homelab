@@ -20,32 +20,12 @@
       DNS2: "1.0.0.1"
       DNSSEC: "True"
   register: pihole_container
-
-- name: Set pihole privacy level
-  lineinfile:
-    path: "/data/pihole/etc-pihole/pihole-FTL.conf"
-    regexp: "^PRIVACYLEVEL="
-    line: "PRIVACYLEVEL={{ pihole_privacy_lvl }}"
-    create: "yes"
-  when: pihole_container.changed
-
-- name: Set pihole logging level
-  command: docker exec -it pihole bash -c "pihole logging {{ pihole_logging }}"
-  when: pihole_container.changed
-
-- name: Generate pihole password
-  set_fact:
-    pihole_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
-  when: pihole_container.changed
-
-- name: Set pihole password
-  shell: "docker exec pihole pihole -a -p {{ pihole_password }}"
-  when: pihole_container.changed
-
-- debug:
-    msg: "Pihole password: {{ pihole_password }}"
-  changed_when: true
-  when: pihole_container.changed
+  notify:
+    - Set pihole privacy level
+    - Set pihole logging level
+    - Generate pihole password
+    - Set pihole password
+    - Print pihole password
 
 - name: Setup pihole nginx conf
   include_role:
