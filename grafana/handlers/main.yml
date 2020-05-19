@@ -1,0 +1,31 @@
+- name: Generate grafana password
+  set_fact:
+    grafana_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
+
+- name: Set grafana password
+  shell: "docker exec grafana grafana-cli admin reset-admin-password {{ grafana_password }}"
+
+- name: Print grafana password
+  debug:
+    msg: "Grafana password: {{ grafana_password }}"
+  changed_when: true
+
+- name: Add prometheus datasource
+  grafana_datasource:
+    name: "prometheus"
+    ds_type: "prometheus"
+    ds_url: "http://localhost:9090"
+    grafana_url: "http://localhost:3000"
+    grafana_user: "admin"
+    grafana_password: "{{ grafana_password }}"
+
+- name: Set preferred home dashboard
+  uri:
+    url: "http://localhost:3000/api/org/preferences"
+    user: admin
+    password: "{{ grafana_password }}"
+    method: PUT
+    body:  '{"homeDashboardId":1}'
+    force_basic_auth: yes
+    status_code: 200
+    body_format: json
