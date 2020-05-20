@@ -1,0 +1,9 @@
+domain: aeoly.us
+caddyfile_marker: "# {mark} ANSIBLE Default"
+# TODO: remove staging
+caddyfile_block: |
+  {{ domain }} {
+    reverse_proxy https://aeolyus.github.io {
+      header_up Host aeolyus.github.io
+    }
+  }
