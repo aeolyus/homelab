@@ -47,8 +47,6 @@
     name: nginx
   vars:
     hostname: "dns.{{ domain }}"
+    nginx_stream_file: "dns-over-tls"
     # [DEPRECATED] moved to caddy
     # nginx_template_file: "dns"
-    nginx_stream_file: "dns-over-tls"
-    firewalld_services: ["dns"]
-    firewalld_ports: ["853/tcp"]

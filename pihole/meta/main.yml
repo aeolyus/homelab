@@ -1,2 +1,6 @@
 dependencies:
   - role: docker
+  - role: firewalld
+    vars:
+      firewalld_services: ["dns"]
+      firewalld_ports: ["853/tcp"]
