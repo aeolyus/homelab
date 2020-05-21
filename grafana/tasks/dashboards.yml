@@ -18,13 +18,20 @@
     src: "home.json"
     dest: "/data/grafana/dashboards/home.json"
 
+- name: Check domain certificate
+  stat:
+    path: "/data/grafana/dashboards/nginx.json"
+  register: grafana_nginx_dashboard
+
 - name: Setup nginx dashboard
   get_url:
     url: "https://git.io/JvSCB"
     dest: "/data/grafana/dashboards/nginx.json"
+  when: not grafana_nginx_dashboard.stat.exists
 
 - name: Replace ${DS_PROMETHEUS} with prometheus in nginx dashboard
   replace:
     path: "/data/grafana/dashboards/nginx.json"
     regexp: "\\${DS_PROMETHEUS}"
     replace: "prometheus"
+  when: not grafana_nginx_dashboard.stat.exists

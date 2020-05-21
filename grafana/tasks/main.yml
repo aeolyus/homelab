@@ -24,9 +24,12 @@
     - Add prometheus datasource
     - Set preferred home dashboard
 
-- name: Setup grafana nginx conf
+- name: Setup caddy for grafana
   include_role:
-    name: nginx
+    name: caddy
   vars:
-    hostname: "monitor.{{ domain }}"
-    nginx_template_file: "monitor"
+    caddyfile_marker: "# {mark} ANSIBLE Grafana"
+    caddyfile_block: |
+      monitor.{{ domain }} {
+        reverse_proxy localhost:3000
+      }

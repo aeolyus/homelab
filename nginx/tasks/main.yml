@@ -11,9 +11,10 @@
   vars:
     firewalld_services: ["http", "https"]
 
-- name: Get letsencrypt certs
-  include_role:
-    role: letsencrypt
+# [DEPRECATED] moved to caddy
+# - name: Get letsencrypt certs
+#   include_role:
+#     role: letsencrypt
 
 - name: Remove default file
   file:
@@ -26,18 +27,19 @@
     dest: "/etc/nginx/nginx.conf"
   register: nginx_conf
 
-- name: Check nginx site configuration
-  template:
-    src: "{{ nginx_template_file }}.j2"
-    dest: "/etc/nginx/sites-available/{{ hostname }}"
-  register: nginx_template
+# [DEPRECATED] moved to caddy
+# - name: Check nginx site configuration
+#   template:
+#     src: "{{ nginx_template_file }}.j2"
+#     dest: "/etc/nginx/sites-available/{{ hostname }}"
+#   register: nginx_template
 
-- name: Ensure nginx site symlink
-  file:
-    src: "/etc/nginx/sites-available/{{ hostname }}"
-    dest: "/etc/nginx/sites-enabled/{{ hostname }}"
-    state: link
-  register: nginx_symlink
+# - name: Ensure nginx site symlink
+#   file:
+#     src: "/etc/nginx/sites-available/{{ hostname }}"
+#     dest: "/etc/nginx/sites-enabled/{{ hostname }}"
+#     state: link
+#   register: nginx_symlink
 
 - name: Ensure nginx stream configuration
   block:
@@ -56,7 +58,5 @@
     state: restarted
     enabled: yes
   when: >
-    nginx_template.changed or
-    nginx_symlink.changed or
     nginx_stream is defined and nginx_stream.changed or
     nginx_conf.changed

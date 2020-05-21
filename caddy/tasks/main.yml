@@ -1,0 +1,44 @@
+- name: Check if Caddyfile exists
+  stat:
+    path: "/data/caddy/Caddyfile"
+  register: caddyfile_check
+
+- name: Create caddy directory
+  file:
+    path: "/data/caddy/"
+    state: directory
+  when: not caddyfile_check.stat.exists
+
+- name: Create Caddyfile
+  file:
+    path: "/data/caddy/Caddyfile"
+    state: touch
+  when: not caddyfile_check.stat.exists
+
+- name: Setup firewall
+  include_role:
+    role: firewalld
+  vars:
+    firewalld_services: ["http", "https"]
+
+- name: Caddy container present
+  docker_container:
+    name: caddy
+    image: caddy
+    restart_policy: unless-stopped
+    network_mode: host
+    volumes:
+      - "/data/caddy/Caddyfile:/etc/caddy/Caddyfile"
+      - "/data/caddy/caddy_data:/data"
+
+- name: Setup Caddyfile
+  blockinfile:
+    path: "/data/caddy/Caddyfile"
+    marker: "{{ caddyfile_marker }}"
+    block: "{{ caddyfile_block }}"
+    create: yes
+  register: caddy_config
+
+- name: Reload caddy config
+  command: docker restart caddy
+  when: caddy_config.changed
