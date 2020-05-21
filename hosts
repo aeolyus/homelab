@@ -4,6 +4,9 @@ aeoly.us
 [dev]
 ifstatementsarenot.ml domain=ifstatementsarenot.ml
 ifstatementsarejust.ml domain=ifstatementsarejust.ml
+notmachinelearning.ml domain=notmachinelearning.ml
+itsnickyang.ml domain=itsnickyang.ml
+itsnotnickyang.ml domain=itsnotnickyang.ml
 
 [prod:vars]
 domain=aeoly.us
