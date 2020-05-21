@@ -5,7 +5,7 @@
   roles:
     - ssh
     - swap
-    - nginx
+    - caddy
     - watchtower
     - bitwarden
     - pihole
