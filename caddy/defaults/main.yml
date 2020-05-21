@@ -1,4 +1,5 @@
 domain: aeoly.us
+public: yes
 caddyfile_marker: "# {mark} ANSIBLE Default"
 # TODO: remove staging
 caddyfile_block: |

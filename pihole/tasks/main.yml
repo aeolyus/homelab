@@ -40,6 +40,7 @@
 - name: Wait for DNS cert before setting DoT
   wait_for:
     path: "/data/caddy/caddy_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/dns.{{ domain }}/dns.{{ domain }}.crt"
+  when: public | d(False)
 
 - name: Setup pihole DoT nginx stream conf
   include_role:

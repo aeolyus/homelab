@@ -20,6 +20,7 @@
     role: firewalld
   vars:
     firewalld_services: ["http", "https"]
+  when: public | d(False)
 
 - name: Caddy container present
   docker_container:
@@ -30,6 +31,7 @@
     volumes:
       - "/data/caddy/Caddyfile:/etc/caddy/Caddyfile"
       - "/data/caddy/caddy_data:/data"
+  when: public | d(False)
 
 - name: Setup Caddyfile
   blockinfile:
