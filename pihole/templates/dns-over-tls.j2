@@ -4,9 +4,8 @@ upstream dns-servers {
 
 server {
   listen 853 ssl;
-  ssl_certificate /etc/letsencrypt/live/dns.{{ domain }}/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/dns.{{ domain }}/privkey.pem;
-  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+  ssl_certificate /data/caddy/caddy_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/dns.{{ domain }}/dns.{{ domain }}.crt;
+  ssl_certificate_key /data/caddy/caddy_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/dns.{{ domain }}/dns.{{ domain }}.key;
   ssl_protocols        TLSv1.2 TLSv1.3;
   ssl_ciphers          HIGH:!aNULL:!MD5;
   ssl_handshake_timeout    10s;

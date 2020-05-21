@@ -27,12 +27,27 @@
     - Set pihole password
     - Print pihole password
 
-- name: Setup pihole nginx conf
+- name: Setup caddy for pihole
+  include_role:
+    name: caddy
+  vars:
+    caddyfile_marker: "# {mark} ANSIBLE Pihole"
+    caddyfile_block: |
+      dns.{{ domain }} {
+        reverse_proxy localhost:31415
+      }
+
+- name: Wait for DNS cert before setting DoT
+  wait_for:
+    path: "/data/caddy/caddy_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/dns.{{ domain }}/dns.{{ domain }}.crt"
+
+- name: Setup pihole DoT nginx stream conf
   include_role:
     name: nginx
   vars:
     hostname: "dns.{{ domain }}"
-    nginx_template_file: "dns"
+    # [DEPRECATED] moved to caddy
+    # nginx_template_file: "dns"
     nginx_stream_file: "dns-over-tls"
     firewalld_services: ["dns"]
     firewalld_ports: ["853/tcp"]
