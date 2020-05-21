@@ -1,6 +1,3 @@
 dependencies:
   - role: docker
   - role: prometheus
-  - role: firewalld
-    vars:
-      firewalld_ports: ["3000/tcp"]
