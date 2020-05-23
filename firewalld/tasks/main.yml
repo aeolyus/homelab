@@ -28,3 +28,11 @@
     state: restarted
     enabled: yes
   when: firewalld_installed.changed or firewalld_services_changed.changed or firewalld_ports_changed.changed
+  register: firewalld_restarted
+
+- name: Restart docker after restarting firewalld
+  service:
+    name: docker
+    state: restarted
+    enabled: yes
+  when: firewalld_restarted.changed
