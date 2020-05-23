@@ -50,3 +50,4 @@
     nginx_stream_file: "dns-over-tls"
     # [DEPRECATED] moved to caddy
     # nginx_template_file: "dns"
+  when: public | d(False)
