@@ -41,6 +41,11 @@
     create: yes
   register: caddy_config
 
+- name: Check if caddy container is running
+  docker_container_info:
+    name: caddy
+  register: caddy
+
 - name: Reload caddy config
   command: docker restart caddy
-  when: caddy_config.changed
+  when: caddy.exists and caddy_config.changed
