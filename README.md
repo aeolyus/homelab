@@ -16,5 +16,6 @@ swap         > add some swap
 watchtower   > automated docker container base image updates
 
 # Deprecating...
+letsencrypt  > open certificate authority
 nginx        > webserver, reverse proxy, ssl termination (with Let's Encrypt)
 ```
