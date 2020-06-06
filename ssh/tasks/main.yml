@@ -37,7 +37,7 @@
     connect_timeout: "5"
     timeout: "10"
   delegate_to: "localhost"
-  ignore_errors: "yes"
+  ignore_errors: "true"
   register: configured_ssh
   when: default_ssh is defined and
         default_ssh.state is undefined
@@ -69,7 +69,7 @@
     firewalld_ports: ["{{ configured_port }}/tcp"]
 
 - name: Setup alternate SSH port
-  become: yes
+  become: true
   lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "^Port"

@@ -6,7 +6,7 @@
   package:
     name: python-certbot-nginx
     state: present
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Check domain certificate

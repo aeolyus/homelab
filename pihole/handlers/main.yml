@@ -3,7 +3,7 @@
     path: "/data/pihole/etc-pihole/pihole-FTL.conf"
     regexp: "^PRIVACYLEVEL="
     line: "PRIVACYLEVEL={{ pihole_privacy_lvl }}"
-    create: yes
+    create: true
 
 - name: Set pihole logging level
   command: docker exec -it pihole bash -c "pihole logging {{ pihole_logging }}"
@@ -18,4 +18,4 @@
 - name: Print pihole password
   debug:
     msg: "Pihole password: {{ pihole_password }}"
-  changed_when: yes
+  changed_when: true

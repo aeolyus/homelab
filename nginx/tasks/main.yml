@@ -2,7 +2,7 @@
   package:
     name: nginx
     state: present
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Setup firewall
@@ -56,7 +56,7 @@
   service:
     name: nginx
     state: restarted
-    enabled: yes
+    enabled: true
   when: >
     nginx_stream is defined and nginx_stream.changed or
     nginx_conf.changed

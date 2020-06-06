@@ -38,7 +38,7 @@
     path: "/data/caddy/Caddyfile"
     marker: "{{ caddyfile_marker }}"
     block: "{{ caddyfile_block }}"
-    create: yes
+    create: true
   register: caddy_config
 
 - name: Check if caddy container is running

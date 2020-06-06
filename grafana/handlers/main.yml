@@ -26,6 +26,6 @@
     password: "{{ grafana_password }}"
     method: PUT
     body:  '{"homeDashboardId":1}'
-    force_basic_auth: yes
+    force_basic_auth: true
     status_code: 200
     body_format: json

@@ -2,7 +2,7 @@
   package:
     name: firewalld
     state: present
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
   register: firewalld_installed
 
@@ -10,7 +10,7 @@
   loop: "{{ firewalld_services }}"
   firewalld:
     service: "{{ item }}"
-    permanent: yes
+    permanent: true
     state: enabled
   register: firewalld_services_changed
 
@@ -18,7 +18,7 @@
   loop: "{{ firewalld_ports }}"
   firewalld:
     port: "{{ item }}"
-    permanent: yes
+    permanent: true
     state: enabled
   register: firewalld_ports_changed
 
@@ -26,7 +26,7 @@
   service:
     name: firewalld
     state: restarted
-    enabled: yes
+    enabled: true
   when: firewalld_installed.changed or firewalld_services_changed.changed or firewalld_ports_changed.changed
   register: firewalld_restarted
 
@@ -34,5 +34,5 @@
   service:
     name: docker
     state: restarted
-    enabled: yes
+    enabled: true
   when: firewalld_restarted.changed

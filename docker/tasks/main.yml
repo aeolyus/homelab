@@ -2,7 +2,7 @@
   package:
     name: [docker.io, python3-pip]
     state: present
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Install docker module for python
@@ -13,4 +13,4 @@
   service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
