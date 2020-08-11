@@ -25,7 +25,7 @@
 - name: Caddy container present
   docker_container:
     name: caddy
-    image: caddy
+    image: caddy:alpine
     restart_policy: unless-stopped
     network_mode: host
     volumes:

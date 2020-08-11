@@ -28,7 +28,7 @@
 - name: Bitwarden container present
   docker_container:
     name: bitwarden
-    image: bitwardenrs/server
+    image: bitwardenrs/server:alpine
     restart_policy: unless-stopped
     ports:
       - "3011:80"
