@@ -9,6 +9,7 @@ docker       > container management tool
 firewalld    > firewall management tool
 grafana      > analytics and graph composer
 letsencrypt  > open certificate authority
+nextcloud    > file hosting service
 pihole       > DNS sinkhole for adblocking
 prometheus   > monitoring system
 ssh          > convert ssh port 22 -> 222
