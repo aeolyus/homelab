@@ -1,0 +1,22 @@
+- name: Nextcloud container present
+  docker_container:
+    name: nextcloud
+    image: nextcloud
+    restart_policy: unless-stopped
+    ports:
+      - "4381:80"
+    volumes:
+      - "/data/nextcloud/:/var/www/html"
+    env:
+      SQLITE_DATABASE: "nextcloud-sqlite-db"
+      NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ domain }}"
+
+- name: Setup caddy for nextcloud
+  include_role:
+    name: caddy
+  vars:
+    caddyfile_marker: "# {mark} ANSIBLE Nextcloud"
+    caddyfile_block: |
+      nextcloud.{{ domain }} {
+        reverse_proxy localhost:4381
+      }
