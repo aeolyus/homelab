@@ -1,0 +1,22 @@
+- name: Plex container present
+  docker_container:
+    name: plex
+    image: plexinc/pms-docker
+    restart_policy: unless-stopped
+    network_mode: host
+    volumes:
+      - "/data/plex/config:/config"
+      - "/data/plex/data:/data"
+      - "/dev/shm:/transcode"
+    env:
+      TZ: "America/Los_Angeles"
+
+- name: Setup caddy for plex
+  include_role:
+    name: caddy
+  vars:
+    caddyfile_marker: "# {mark} ANSIBLE Plex"
+    caddyfile_block: |
+      plex.{{ domain }} {
+        reverse_proxy localhost:32400
+      }
