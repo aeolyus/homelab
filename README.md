@@ -11,6 +11,7 @@ grafana      > analytics and graph composer
 letsencrypt  > open certificate authority
 nextcloud    > file hosting service
 pihole       > DNS sinkhole for adblocking
+plex         > media server
 prometheus   > monitoring system
 ssh          > convert ssh port 22 -> 222
 swap         > add some swap
