@@ -1,0 +1,22 @@
+- name: Tautulli container present
+  docker_container:
+    name: tautulli
+    image: tautulli/tautulli
+    restart_policy: unless-stopped
+    ports:
+      - "8181:8181"
+    volumes:
+      - "/data/tautulli:/config"
+      - "/data/plex/config/Library/Application\ Support/Plex\ Media\ Server/Logs:/plex_logs"
+    env:
+      TZ: "America/Los_Angeles"
+
+- name: Setup caddy for tautulli
+  include_role:
+    name: caddy
+  vars:
+    caddyfile_marker: "# {mark} ANSIBLE Tautulli"
+    caddyfile_block: |
+      tautulli.{{ domain }} {
+        reverse_proxy localhost:8181
+      }
