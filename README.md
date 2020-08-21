@@ -15,6 +15,7 @@ plex         > media server
 prometheus   > monitoring system
 ssh          > convert ssh port 22 -> 222
 swap         > add some swap
+tautulli     > monitoring and tracking tool for plex
 watchtower   > automated docker container base image updates
 
 # Deprecating...
