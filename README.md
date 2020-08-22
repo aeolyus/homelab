@@ -8,7 +8,6 @@ caddy        > webserver, reverse proxy, ssl termination, with automatic tls
 docker       > container management tool
 firewalld    > firewall management tool
 grafana      > analytics and graph composer
-letsencrypt  > open certificate authority
 nextcloud    > file hosting service
 pihole       > DNS sinkhole for adblocking
 plex         > media server
