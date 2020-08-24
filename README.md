@@ -21,3 +21,17 @@ watchtower   > automated docker container base image updates
 letsencrypt  > open certificate authority
 nginx        > webserver, reverse proxy, ssl termination (with Let's Encrypt)
 ```
+
+## Usage
+Edit the services you want in `site.yml`.
+Modify the default variables as desired.
+Change the `hosts` file to include the server.
+Run the ansible playbook to terraform and configure the server!
+```
+ansible-playbook site.yml
+```
+
+You can also run the playbook on an arbitrary server without specifying it in the `hosts` file.
+```
+ansible-playbook -i user@server, site.yml
+```
