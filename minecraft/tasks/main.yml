@@ -17,3 +17,14 @@
     command:
       # Some older versions (pre-1.14) of Spigot require this when detaching stdin
       - "--noconsole"
+
+- name: Setup caddy for minecraft
+  include_role:
+    name: caddy
+  vars:
+    caddyfile_marker: "# {mark} ANSIBLE Minecraft"
+    caddyfile_block: |
+      mc.{{ domain }} {
+        reverse_proxy / localhost:8123
+        reverse_proxy /stats localhost:8804
+      }
