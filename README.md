@@ -9,6 +9,7 @@ docker       > container management tool
 firewalld    > firewall management tool
 grafana      > analytics and graph composer
 nextcloud    > file hosting service
+minecraft    > sandbox game server
 pihole       > DNS sinkhole for adblocking
 plex         > media server
 prometheus   > monitoring system
