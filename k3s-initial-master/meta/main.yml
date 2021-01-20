@@ -1,0 +1,8 @@
+dependencies:
+  - role: firewalld
+    vars:
+      firewalld_ports:
+        - "6443/tcp" # Kube api
+        - "2379/tcp" # etcd client requests
+        - "2380/tcp" # etcd peer communication
+      firewalld_services: ["https"]
