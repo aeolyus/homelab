@@ -30,9 +30,12 @@
   when: firewalld_installed.changed or firewalld_services_changed.changed or firewalld_ports_changed.changed
   register: firewalld_restarted
 
+- name: Populate service facts
+  service_facts:
+
 - name: Restart docker after restarting firewalld
   service:
     name: docker
     state: restarted
     enabled: true
-  when: firewalld_restarted.changed
+  when: firewalld_restarted.changed and 'docker.service' in services
