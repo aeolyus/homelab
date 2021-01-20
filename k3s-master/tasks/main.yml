@@ -1,0 +1,40 @@
+- name: Get k3s token
+  set_fact:
+    k3s_token: "{{ hostvars[groups['k3s_initial_master'][0]]['k3s_token'] }}"
+
+- name: Get load balancer ip
+  set_fact:
+    load_balancer_ip: "{{ hostvars[groups['k3s_load_balancer'][0]]['inventory_hostname'] }}"
+
+- name: Get k3s initial master ip
+  set_fact:
+    k3s_initial_master_ip: "{{ hostvars[groups['k3s_initial_master'][0]]['inventory_hostname'] }}"
+
+- name: Download k3s installer
+  get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-installer.sh
+
+- name: Change k3s installer to be executable
+  file:
+    dest: /tmp/k3s-installer.sh
+    mode: +x
+
+- name: Run the k3s installer
+  become: yes
+  shell: >
+    K3S_TOKEN={{ k3s_token }}
+    /tmp/k3s-installer.sh
+    server
+    --server https://{{ k3s_initial_master_ip }}:6443
+    --node-taint CriticalAddonsOnly=true:NoExecute
+    --tls-san {{ load_balancer_ip }}
+  args:
+    creates: "{{ k3s_token_file_location }}"
+
+- name: Allow kubectl without sudo
+  become: true
+  file:
+    path: /etc/rancher
+    owner: "{{ ansible_user }}"
+    recurse: true
