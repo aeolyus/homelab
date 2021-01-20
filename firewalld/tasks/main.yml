@@ -8,7 +8,7 @@
 
 - name: Open service ports
   loop: "{{ firewalld_services }}"
-  firewalld:
+  ansible.posix.firewalld:
     service: "{{ item }}"
     permanent: true
     state: enabled
@@ -16,7 +16,7 @@
 
 - name: Open ports
   loop: "{{ firewalld_ports }}"
-  firewalld:
+  ansible.posix.firewalld:
     port: "{{ item }}"
     permanent: true
     state: enabled
