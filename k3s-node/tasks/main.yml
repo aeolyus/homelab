@@ -1,0 +1,20 @@
+- name: Populate service facts
+  service_facts:
+
+- name: Download k3s installer
+  get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-installer.sh
+
+- name: Change k3s installer to be executable
+  file:
+    dest: /tmp/k3s-installer.sh
+    mode: +x
+
+- name: Run the k3s installer
+  become: yes
+  shell: >
+    K3S_URL=https://{{ k3s_load_balancer_ip }}:6443
+    K3S_TOKEN={{ k3s_token }}
+    /tmp/k3s-installer.sh
+  when: "'k3s-agent.service' not in services"
