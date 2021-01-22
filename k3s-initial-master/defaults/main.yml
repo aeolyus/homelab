@@ -1,2 +1,2 @@
 k3s_token_file_location: "/var/lib/rancher/k3s/server/node-token"
-load_balancer_ip: "{{ hostvars[groups['k3s_load_balancer'][0]]['inventory_hostname'] }}"
+load_balancer_ip: "{{ hostvars[groups['k3s_load_balancer'][0]]['ansible_host'] }}"
