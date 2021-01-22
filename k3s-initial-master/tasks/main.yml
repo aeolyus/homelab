@@ -11,6 +11,7 @@
     become: true
     shell: cut {{ k3s_token_file_location }} -d ":" -f4
     register: k3s_token_file
+    changed_when: false
   - name: Set k3s token
     set_fact:
       k3s_token: "{{ k3s_token_file.stdout }}"
