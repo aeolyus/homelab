@@ -1,0 +1,28 @@
+- name: Create k3s load balancer directory
+  file:
+    path: "/data/{{ role_name }}"
+    state: directory
+
+- name: Check k3s load balancer nginx configuration
+  template:
+    src: "nginx.j2"
+    dest: "/data/{{ role_name }}/nginx.conf"
+  register: k3s_load_balancer_nginx_template
+
+- name: Nginx container present
+  docker_container:
+    name: k3s-load-balancer
+    image: nginx:alpine
+    restart_policy: unless-stopped
+    ports:
+      - "6443:6443"
+      - "443:443"
+      - "80:80"
+    volumes:
+      - "/data/{{ role_name }}/nginx.conf:/etc/nginx/nginx.conf"
+
+- name: Restart nginx container if nginx configuration changed
+  docker_container:
+    name: k3s-load-balancer
+    restart: yes
+  when: k3s_load_balancer_nginx_template.changed
