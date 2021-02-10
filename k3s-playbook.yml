@@ -1,0 +1,26 @@
+- name: Setup k3s load balancer
+  hosts: k3s_load_balancer:!localhost
+  become: true
+  roles:
+    - k3s-load-balancer
+
+- name: Setup initial k3s master
+  hosts: k3s_initial_master:!localhost
+  become: true
+  roles:
+    - swap
+    - k3s-initial-master
+
+- name: Setup other k3s masters
+  hosts: k3s_master:!localhost
+  become: true
+  roles:
+    - swap
+    - k3s-master
+
+- name: Setup k3s nodes
+  hosts: k3s_node:!localhost
+  become: true
+  roles:
+    - swap
+    - k3s-node
