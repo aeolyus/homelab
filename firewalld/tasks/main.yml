@@ -11,6 +11,7 @@
   ansible.posix.firewalld:
     service: "{{ item }}"
     permanent: true
+    immediate: true
     state: enabled
   register: firewalld_services_changed
 
@@ -19,6 +20,7 @@
   ansible.posix.firewalld:
     port: "{{ item }}"
     permanent: true
+    immediate: true
     state: enabled
   register: firewalld_ports_changed
 
