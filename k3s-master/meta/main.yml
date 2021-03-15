@@ -5,4 +5,5 @@ dependencies:
         - "6443/tcp" # Kube api
         - "2379/tcp" # etcd client requests
         - "2380/tcp" # etcd peer communication
+        - "10250/tcp" # kubelet
       firewalld_services: ["https"]
