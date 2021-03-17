@@ -18,6 +18,7 @@
     --node-taint CriticalAddonsOnly=true:NoExecute
     --tls-san {{ load_balancer_ip }}
     --node-ip {{ node_ip | default(ansible_host) }}
+    --disable-cloud-controller
   args:
     creates: "{{ k3s_token_file_location }}"
 

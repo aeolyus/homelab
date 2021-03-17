@@ -36,6 +36,7 @@
       --node-taint CriticalAddonsOnly=true:NoExecute
       --tls-san {{ load_balancer_ip }}
       --node-ip {{ node_ip | default(ansible_host) }}
+      --disable-cloud-controller
 
 - name: Allow kubectl without sudo
   become: true
