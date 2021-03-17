@@ -35,6 +35,7 @@
       --cluster-init
       --node-taint CriticalAddonsOnly=true:NoExecute
       --tls-san {{ load_balancer_ip }}
+      --node-ip {{ node_ip | default(ansible_host) }}
 
 - name: Allow kubectl without sudo
   become: true

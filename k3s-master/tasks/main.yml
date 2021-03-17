@@ -17,6 +17,7 @@
     --server https://{{ k3s_initial_master_ip }}:6443
     --node-taint CriticalAddonsOnly=true:NoExecute
     --tls-san {{ load_balancer_ip }}
+    --node-ip {{ node_ip | default(ansible_host) }}
   args:
     creates: "{{ k3s_token_file_location }}"
 
