@@ -38,6 +38,7 @@
       --node-ip {{ node_ip | default(ansible_host) }}
       --disable-cloud-controller
       --disable traefik
+      --flannel-backend wireguard
 
 - name: Allow kubectl without sudo
   become: true

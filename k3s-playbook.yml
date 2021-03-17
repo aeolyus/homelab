@@ -4,6 +4,17 @@
   roles:
     - k3s-load-balancer
 
+- name: Use wireguard as flannel backend
+  hosts: k3s_initial_master:k3s_master:k3s_node:!localhost
+  become: true
+  tasks:
+    - name: Check wireguard is installed
+      package:
+        name: wireguard
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
 - name: Setup initial k3s master
   hosts: k3s_initial_master:!localhost
   become: true

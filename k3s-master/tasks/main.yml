@@ -20,6 +20,7 @@
     --node-ip {{ node_ip | default(ansible_host) }}
     --disable-cloud-controller
     --disable traefik
+    --flannel-backend wireguard
   args:
     creates: "{{ k3s_token_file_location }}"
 
