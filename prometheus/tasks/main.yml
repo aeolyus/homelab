@@ -19,7 +19,7 @@
       - "/data/prometheus:/prometheus"
     command:
       - '--config.file=/prometheus/prometheus.yml'
-      - '--storage.tsdb.retention.time=1000y'
+      - '--storage.tsdb.retention.time=100y'
       - '--storage.tsdb.retention.size=20GB'
 
 - name: Check exporters
