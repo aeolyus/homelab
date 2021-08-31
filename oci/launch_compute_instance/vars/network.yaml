@@ -1,0 +1,21 @@
+# Common networking definitions
+quad_zero_route: "0.0.0.0/0"
+TCP_protocol: "6"
+SSH_port: "22"
+
+# Network
+vcn_name: "vcn-ansible"
+vcn_cidr_block: "10.0.0.0/16"
+
+ig_name: "internet-gateway-ansible"
+
+route_table_name: "route-table-ansible"
+# Route all internet access to our Internet Gateway
+route_table_rules:
+  - cidr_block: "{{ quad_zero_route }}"
+    network_entity_id: "{{ ig_id }}"
+
+subnet_cidr: "10.0.0.0/24"
+subnet_name: "subnet-ansible"
+
+securitylist_name: "securitylist-ansible"

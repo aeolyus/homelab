@@ -1,0 +1,28 @@
+- name : Launch compute instances
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - oracle.oci
+  vars_files:
+    - vars/network.yaml
+
+  tasks:
+    - name: Include vars for tenant aeolyus for x86 machines
+      include_vars:
+        file: vars/aeolyus-x86.yaml
+
+    - name: Create x86 compute instances
+      include_tasks: tasks/main.yaml
+      with_sequence: count={{ instance_count }}
+      loop_control:
+        loop_var: instance_num
+
+    - name: Include vars for tenant aeolyus for arm machines
+      include_vars:
+        file: vars/aeolyus-arm.yaml
+
+    - name: Create arm compute instances
+      include_tasks: tasks/main.yaml
+      with_sequence: count={{ instance_count }}
+      loop_control:
+        loop_var: instance_num

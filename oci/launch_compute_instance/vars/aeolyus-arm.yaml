@@ -1,0 +1,12 @@
+instance_shape: "VM.Standard.A1.Flex"
+instance_hostname: "aeolyus-instance-ansible"
+# Ubuntu 20.04 aarch64 in us-phoenix-1
+# https://docs.oracle.com/en-us/iaas/images/image/e29b572c-5e90-4c00-88c6-11e8cae0a8d4/
+instance_image: "ocid1.image.oc1.phx.aaaaaaaa37achzetqynl6qzdgkla44wyiktjqhh6xvgzk2wgeato4rfjjo6q"
+# aeolyus
+instance_compartment: "ocid1.tenancy.oc1..aaaaaaaatu5lebwfrgjkuh4fkohbelghz6sqtchok6omg2qnkugjybfltdra"
+instance_count: 4
+total_ocpus: 4
+total_memory_in_gbs: 24
+memory_in_gbs: "{{ total_memory_in_gbs / instance_count | round(0,'floor') | int}}"
+ocpus: "{{ total_ocpus / instance_count | round(0,'floor') | int}}"

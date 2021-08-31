@@ -1,0 +1,46 @@
+- name: List availbility domains
+  oci_identity_availability_domain_facts:
+    compartment_id: "{{ instance_compartment }}"
+  register: result
+
+- set_fact:
+    availability_domains: "{{ result.availability_domains }}"
+
+- name: List shapes in first AD
+  oci_compute_shape_facts:
+    compartment_id: "{{ instance_compartment }}"
+    image_id: "{{ instance_image }}"
+    availability_domain: "{{ availability_domains[0].name }}"
+  register: result
+  when: availability_domains | length > 0
+
+- set_fact:
+    instance_ad: "{{ availability_domains[0].name }}"
+  loop: "{{ result.shapes }}"
+  when: item.shape == instance_shape and availability_domains | length > 0
+
+- name: List shapes in second AD
+  oci_compute_shape_facts:
+    compartment_id: "{{ instance_compartment }}"
+    image_id: "{{ instance_image }}"
+    availability_domain: "{{ availability_domains[1].name }}"
+  register: result
+  when: availability_domains | length > 1
+
+- set_fact:
+    instance_ad: "{{ availability_domains[1].name }}"
+  loop: "{{ result.shapes }}"
+  when: item.shape == instance_shape and availability_domains | length > 1
+
+- name: List shapes in third AD
+  oci_compute_shape_facts:
+    compartment_id: "{{ instance_compartment }}"
+    image_id: "{{ instance_image }}"
+    availability_domain: "{{ availability_domains[2].name }}"
+  register: result
+  when: availability_domains | length > 2
+
+- set_fact:
+    instance_ad: "{{ availability_domains[2].name }}"
+  loop: "{{ result.shapes }}"
+  when: item.shape == instance_shape and availability_domains | length > 2

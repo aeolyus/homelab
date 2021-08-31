@@ -1,0 +1,34 @@
+- name: Launch a compute instance
+  oci_compute_instance:
+    name: "{{ '-'.join((instance_hostname, instance_num)) }}"
+    availability_domain: "{{ instance_ad }}"
+    compartment_id: "{{ instance_compartment }}"
+    shape: "{{ instance_shape }}"
+    source_details:
+      source_type: image
+      image_id: "{{ instance_image }}"
+    shape_config:
+      memory_in_gbs: " {{ memory_in_gbs | default(1) }}"
+      ocpus: "{{ ocpus | default(1) }}"
+    create_vnic_details:
+        assign_public_ip: True
+        subnet_id: "{{ instance_subnet_id }}"
+    metadata:
+        ssh_authorized_keys: "{{ lookup('file',  '/keys/ssh_authorized_keys') }}"
+  register: result
+- set_fact:
+    instance_id: "{{result.instance.id }}"
+
+- name: Get boot volume id from an existing instance
+  oci_compute_boot_volume_attachment_facts:
+    availability_domain: "{{ instance_ad }}"
+    compartment_id: "{{ instance_compartment }}"
+    instance_id: "{{ instance_id }}"
+  register: result
+- set_fact:
+    boot_volume_id: "{{ result.boot_volume_attachments[0].boot_volume_id }}"
+
+- name: Update instance boot volume VPU
+  oci_blockstorage_boot_volume:
+    vpus_per_gb: 120
+    boot_volume_id: "{{ boot_volume_id }}"

@@ -1,0 +1,71 @@
+- name: Create a VCN
+  oci_network_vcn:
+    compartment_id: "{{ instance_compartment }}"
+    display_name: "{{ vcn_name }}"
+    cidr_block: "{{ vcn_cidr_block }}"
+  register: result
+- set_fact:
+    vcn_id: "{{ result.vcn.id }}"
+
+- name: Create a new Internet Gateway
+  oci_network_internet_gateway:
+    compartment_id: "{{ instance_compartment }}"
+    vcn_id: "{{ vcn_id }}"
+    name: "{{ ig_name }}"
+    is_enabled: 'yes'
+    state: 'present'
+  register: result
+- set_fact:
+    ig_id: "{{ result.internet_gateway.id }}"
+
+- name: Create route table to connect internet gateway to the VCN
+  oci_network_route_table:
+    compartment_id: "{{ instance_compartment }}"
+    vcn_id: "{{ vcn_id }}"
+    name: "{{ route_table_name }}"
+    route_rules: "{{ route_table_rules }}"
+    state: 'present'
+  register: result
+- set_fact:
+    rt_id: "{{ result.route_table.id }}"
+
+# Create a security list for allowing access to public instance
+# Use a jinja2 template of the ingress and egress security rules to generate
+# a templated version of the final rules.
+- name: Create ingress rules yaml body
+  template: src=../templates/ingress_security_rules.yaml.j2 dest=/tmp/instance_ingress_security_rules.yaml
+- name: Create egress yaml body
+  template: src=../templates/egress_security_rules.yaml.j2 dest=/tmp/instance_egress_security_rules.yaml
+# Load the variables defined in the generated files
+- name: Load the variables defined in the ingress rules yaml body
+  include_vars:
+    file: /tmp/instance_ingress_security_rules.yaml
+    name: loaded_ingress
+- name: Load the variables defined in the egress rules yaml body
+  include_vars:
+    file: /tmp/instance_egress_security_rules.yaml
+    name: loaded_egress
+- name: Create a security list for allowing access to public instance
+  oci_network_security_list:
+    name: "{{ securitylist_name }}"
+    compartment_id: "{{ instance_compartment }}"
+    vcn_id: '{{ vcn_id }}'
+    ingress_security_rules: "{{ loaded_ingress.instance_ingress_security_rules }}"
+    egress_security_rules:  "{{ loaded_egress.instance_egress_security_rules }}"
+  register: result
+- set_fact:
+    instance_security_list_ocid: "{{ result.security_list.id }}"
+
+- name: Create a subnet to host the public instance. Link security_list and route_table.
+  oci_network_subnet:
+    availability_domain: "{{ instance_ad }}"
+    cidr_block: "{{ subnet_cidr }}"
+    compartment_id: "{{ instance_compartment }}"
+    display_name: "{{ subnet_name }}"
+    prohibit_public_ip_on_vnic: false
+    route_table_id: "{{ rt_id }}"
+    security_list_ids: [ "{{ instance_security_list_ocid }}" ]
+    vcn_id: '{{ vcn_id }}'
+  register: result
+- set_fact:
+    instance_subnet_id: "{{ result.subnet.id }}"

@@ -1,0 +1,14 @@
+- name: Launch a compute instance
+  block:
+  # Find the availability domain
+  - import_tasks: find_ad.yaml
+  # Create network components
+  - import_tasks: network.yaml
+  # Create instance
+  - import_tasks: instance.yaml
+
+  rescue:
+    - import_tasks: teardown.yaml
+      ignore_errors: yes
+    - fail:
+        msg: "{{ ansible_failed_result }}"
