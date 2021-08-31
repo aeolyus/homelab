@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  oci-manager:
+    container_name: oci-manager
+    build: .
+    volumes:
+      - "./keys/:/keys/:ro"
+      - "./config:/root/.oci/config:ro"
+      - "./launch_compute_instance/:/launch_compute_instance/:ro"
