@@ -12,3 +12,6 @@ memory_in_gbs: "{{ total_memory_in_gbs / instance_count | round(0,'floor') | int
 ocpus: "{{ total_ocpus / instance_count | round(0,'floor') | int}}"
 # Different subnet than x86 because oci_network_subnet is not idempotent
 subnet_cidr: "10.0.1.0/24"
+freeform_tags: {
+  "kubernetes": "true"
+}

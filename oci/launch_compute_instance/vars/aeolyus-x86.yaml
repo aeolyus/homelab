@@ -6,3 +6,6 @@ instance_image: "ocid1.image.oc1.phx.aaaaaaaasugogq2rv32d3zbpolvbvdgapjdwfgdzll6
 # aeolyus
 instance_compartment: "ocid1.tenancy.oc1..aaaaaaaatu5lebwfrgjkuh4fkohbelghz6sqtchok6omg2qnkugjybfltdra"
 instance_count: 1
+freeform_tags: {
+  "kubernetes": "true"
+}

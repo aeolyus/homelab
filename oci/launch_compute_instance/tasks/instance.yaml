@@ -15,6 +15,7 @@
         subnet_id: "{{ instance_subnet_id }}"
     metadata:
         ssh_authorized_keys: "{{ lookup('file',  '/keys/ssh_authorized_keys') }}"
+    freeform_tags: "{{ freeform_tags | default({}) }}"
   register: result
 - set_fact:
     instance_id: "{{result.instance.id }}"
