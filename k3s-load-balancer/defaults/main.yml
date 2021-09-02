@@ -1,1 +1,0 @@
-k3s_master_ips: "{{ groups['k3s_initial_master'] | union(groups['k3s_master']) | map('extract', hostvars, ['ansible_host']) }}"
