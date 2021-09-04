@@ -1,10 +1,9 @@
-- name: Use wireguard as flannel backend
+- name: Check prerequisite packages are installed
   hosts: k3s_initial_master:k3s_master:k3s_worker:!localhost
   become: true
   tasks:
-    - name: Check wireguard is installed
-      package:
-        name: wireguard
+    - package:
+        name: [wireguard, nfs-common]
         state: present
         update_cache: true
         cache_valid_time: 3600
