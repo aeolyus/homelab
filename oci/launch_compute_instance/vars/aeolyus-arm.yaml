@@ -8,8 +8,12 @@ instance_compartment: "ocid1.tenancy.oc1..aaaaaaaatu5lebwfrgjkuh4fkohbelghz6sqtc
 instance_count: 4
 total_ocpus: 4
 total_memory_in_gbs: 24
-memory_in_gbs: "{{ total_memory_in_gbs / instance_count | round(0,'floor') | int}}"
-ocpus: "{{ total_ocpus / instance_count | round(0,'floor') | int}}"
+# memory_in_gbs: "{{ total_memory_in_gbs / instance_count | round(0,'floor') | int}}"
+# ocpus: "{{ total_ocpus / instance_count | round(0,'floor') | int}}"
+# Vars set to maximize number of instances
+memory_in_gbs: 6
+ocpus: 1
+
 # Different subnet than x86 because oci_network_subnet is not idempotent
 subnet_cidr: "10.0.1.0/24"
 freeform_tags: {
