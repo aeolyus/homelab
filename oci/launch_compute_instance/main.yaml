@@ -7,22 +7,48 @@
     - vars/network.yaml
 
   tasks:
-    - name: Include vars for tenant aeolyus for x86 machines
-      include_vars:
-        file: vars/aeolyus-x86.yaml
+    - name: Create kubernetes master nodes
+      block:
+        - name: Include vars for tenant aeolyus for x86 machines
+          include_vars:
+            file: vars/aeolyus-master-x86.yaml
 
-    - name: Create x86 compute instances
-      include_tasks: tasks/main.yaml
-      with_sequence: count={{ instance_count }}
-      loop_control:
-        loop_var: instance_num
+        - name: Include vars for kubernetes master
+          include_vars:
+            file: vars/kubernetes-master.yaml
 
-    - name: Include vars for tenant aeolyus for arm machines
-      include_vars:
-        file: vars/aeolyus-arm.yaml
+        - name: Create x86 compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=1
+          loop_control:
+            loop_var: instance_num
 
-    - name: Create arm compute instances
-      include_tasks: tasks/main.yaml
-      with_sequence: count={{ instance_count }}
-      loop_control:
-        loop_var: instance_num
+        - name: Include vars for tenant aeolyus for arm machines
+          include_vars:
+            file: vars/aeolyus-arm.yaml
+
+        - name: Include vars for kubernetes master
+          include_vars:
+            file: vars/kubernetes-master.yaml
+
+        - name: Create arm compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=2
+          loop_control:
+            loop_var: instance_num
+
+    - name: Create kubernetes worker nodes
+      block:
+        - name: Include vars for tenant aeolyus for arm machines
+          include_vars:
+            file: vars/aeolyus-arm.yaml
+
+        - name: Include vars for kubernetes worker
+          include_vars:
+            file: vars/kubernetes-worker.yaml
+
+        - name: Create arm compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=2
+          loop_control:
+            loop_var: instance_num
