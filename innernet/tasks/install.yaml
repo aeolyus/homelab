@@ -1,0 +1,18 @@
+- name: Install dependencies
+  package:
+    name: [wireguard, cargo, libclang-dev, libsqlite3-dev]
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install from source
+  become: yes
+  shell: >
+    cargo install \
+    --root {{ install_path }} \
+    --git https://github.com/tonarino/innernet \
+    --tag {{ version }}
+    server client
+  args:
+    creates: "{{ install_path }}/bin/innernet*"
+
