@@ -1,0 +1,3 @@
+version: "v1.4.1"
+# cargo will install in $INSTALL_PATH/bin
+install_path: "/usr/local"
