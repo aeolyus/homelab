@@ -1,18 +1,45 @@
 - name: Install dependencies
   package:
-    name: [wireguard, cargo, libclang-dev, libsqlite3-dev]
+    name: [git, wireguard, cargo, libclang-dev, libsqlite3-dev]
     state: present
     update_cache: true
     cache_valid_time: 3600
 
-- name: Install from source
-  become: yes
-  shell: >
-    cargo install \
-    --root {{ install_path }} \
-    --git https://github.com/tonarino/innernet \
-    --tag {{ version }}
-    server client
-  args:
-    creates: "{{ install_path }}/bin/innernet*"
+- name: Check if innernet has been installed
+  stat:
+    path: /usr/bin/innernet
+  register: result
 
+- name:
+  set_fact:
+    innernet_exists: "{{ result.stat.exists }}"
+  changed_when: false
+
+- name: Install innernet
+  block:
+  - name: Clone git repo
+    git:
+      repo: "https://github.com/tonarino/innernet"
+      dest: innernet/
+      version: "{{ version }}"
+
+  - name: Install cargo-deb
+    shell: cargo install cargo-deb
+
+  - name: Build and install server deb package
+    shell: cargo deb --install -p server
+    args:
+      chdir: innernet/
+      creates: "usr/bin/innernet-server"
+
+  - name: Build and install client deb package
+    shell: cargo deb --install -p client
+    args:
+      chdir: innernet/
+      creates: "usr/bin/innernet"
+  when: not innernet_exists
+
+- name: Clean up post-installation
+  file:
+    state: absent
+    path: innernet/
