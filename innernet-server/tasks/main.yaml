@@ -1,0 +1,5 @@
+- name: Install innernet
+  import_tasks: install.yaml
+
+- name: Setup server
+  import_tasks: server.yaml

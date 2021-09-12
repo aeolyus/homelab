@@ -1,0 +1,19 @@
+- name: Check for existence of innernet group "{{ group.name }}"
+  shell: >
+    sqlite3 /var/lib/innernet-server/{{ innernet_interface_name }}.db
+    "SELECT * FROM cidrs WHERE name == '{{ group.name }}';"
+  register: result
+  changed_when: false
+- set_fact:
+    group_exists: "{{ result.stdout }} | length > 0"
+
+- name: Add innernet group "{{ group.name }}"
+  become: yes
+  shell: >
+    innernet-server
+    add-cidr {{ innernet_interface_name }}
+    --name {{ group.name }}
+    --cidr {{ group.cidr }}
+    --parent {{ innernet_interface_name }}
+    --yes
+  when: not "group_exists"

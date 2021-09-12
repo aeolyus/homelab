@@ -1,0 +1,32 @@
+- name: Get public IP address
+  uri:
+    url: http://ifconfig.me/ip
+    return_content: true
+  register: result
+- set_fact:
+    server_public_ip: "{{ result.content }}"
+
+- name: Create interface
+  become: yes
+  shell: >
+    innernet-server
+    new
+    --external-endpoint {{ server_public_ip }}:{{ innernet_server_port }}
+    --listen-port {{ innernet_listen_port }}
+    --network-cidr {{ innernet_interface_cidr }}
+    --network-name {{ innernet_interface_name }}
+  args:
+    creates: "/var/lib/innernet-server/{{ innernet_interface_name }}.db"
+
+- name: Create groups
+  include_tasks: "groups.yaml"
+  loop: "{{ innernet_server_groups }}"
+  loop_control:
+    loop_var: group
+
+- name: Enable interface systemctl service
+  become: yes
+  systemd:
+    name: "innernet-server@{{ innernet_interface_name }}"
+    state: started
+    enabled: yes
