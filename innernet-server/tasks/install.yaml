@@ -1,6 +1,7 @@
 - name: Install dependencies
+  become: yes
   package:
-    name: [git, wireguard, cargo, libclang-dev, libsqlite3-dev]
+    name: [git, sqlite3, wireguard, cargo, libclang-dev, libsqlite3-dev]
     state: present
     update_cache: true
     cache_valid_time: 3600
@@ -26,11 +27,11 @@
   - name: Install cargo-deb
     shell: cargo install cargo-deb
 
-  - name: Build and install client deb package
-    shell: cargo deb --install -p client
+  - name: Build and install server deb package
+    shell: cargo deb --install -p server
     args:
       chdir: innernet/
-      creates: "usr/bin/innernet"
+      creates: "usr/bin/innernet-server"
   when: not innernet_exists
 
 - name: Clean up post-installation

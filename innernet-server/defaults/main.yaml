@@ -1,0 +1,10 @@
+innernet_version: "v1.4.1"
+
+innernet_interface_name: "magic-base"
+innernet_interface_cidr: 10.42.0.0/16
+innernet_server_port: 51820
+innernet_listen_port: 51820
+
+innernet_server_groups:
+  - name: "humans"
+    cidr: "10.42.1.0/24"
