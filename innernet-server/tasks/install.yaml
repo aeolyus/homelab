@@ -1,14 +1,14 @@
 - name: Install dependencies
   become: yes
   package:
-    name: [git, sqlite3, wireguard, cargo, libclang-dev, libsqlite3-dev]
+    name: [git, wireguard, cargo, libclang-dev, libsqlite3-dev]
     state: present
     update_cache: true
     cache_valid_time: 3600
 
 - name: Check if innernet has been installed
   stat:
-    path: /usr/bin/innernet
+    path: /usr/bin/innernet-server
   register: result
 
 - name:
