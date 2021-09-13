@@ -1,2 +1,5 @@
 - name: Install innernet
   import_tasks: install.yaml
+
+- name: Get innernet IP
+  import_tasks: get_ip.yaml
