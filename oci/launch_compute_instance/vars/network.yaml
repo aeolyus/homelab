@@ -1,7 +1,6 @@
 # Common networking definitions
 quad_zero_route: "0.0.0.0/0"
-TCP_protocol: "6"
-SSH_port: "22"
+procotol: "all"
 
 # Network
 vcn_name: "vcn-ansible"
