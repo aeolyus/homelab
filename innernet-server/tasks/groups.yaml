@@ -5,7 +5,7 @@
   register: result
   changed_when: false
 - set_fact:
-    group_exists: "{{ result.stdout }} | length > 0"
+    group_exists: "{{ result.stdout | length > 0 }}"
 
 - name: Add innernet group "{{ group.name }}"
   become: yes
@@ -16,4 +16,4 @@
     --cidr {{ group.cidr }}
     --parent {{ innernet_interface_name }}
     --yes
-  when: not "group_exists"
+  when: not group_exists
