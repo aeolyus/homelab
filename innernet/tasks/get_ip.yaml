@@ -1,0 +1,10 @@
+- name: Get node innernet ip
+  become: yes
+  shell: >
+    sudo innernet show "{{ innernet_interface_name }}" --tree
+    | awk '/you,/ {print $3}'
+    | sed 's/://g'
+  register: result
+  changed_when: false
+- set_fact:
+    innernet_ip: "{{ result.stdout }}"
