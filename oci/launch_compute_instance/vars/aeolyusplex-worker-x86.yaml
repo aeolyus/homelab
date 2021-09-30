@@ -1,0 +1,10 @@
+instance_shape: "VM.Standard.E2.1.Micro"
+instance_hostname: "aeolyusplex-worker-x86-instance-ansible"
+# Ubuntu 20.04 Minimal in us-sanjose-1
+# https://docs.oracle.com/en-us/iaas/images/image/19124c98-1c3e-42e4-8ea8-fa3977a33342/
+instance_image: "ocid1.image.oc1.us-sanjose-1.aaaaaaaacgbjxf7qypodeq4zexw7ikuga27yl3crbpnncjpfzisfkefr7lea"
+# aeolyusplex
+instance_compartment: "ocid1.tenancy.oc1..aaaaaaaapvsxhpn42yybnvggy6socle5ojgjk6bkc5ulxilsp7tp6o4y6mjq"
+memory_in_gbs: 1
+ocpus: 1
+config_profile_name: "aeolyusplex"

@@ -1,0 +1,13 @@
+instance_shape: "VM.Standard.A1.Flex"
+instance_hostname: "aeolyus-master-arm-instance-ansible"
+# Ubuntu 20.04 aarch64 in us-phoenix-1
+# https://docs.oracle.com/en-us/iaas/images/image/e29b572c-5e90-4c00-88c6-11e8cae0a8d4/
+instance_image: "ocid1.image.oc1.phx.aaaaaaaa37achzetqynl6qzdgkla44wyiktjqhh6xvgzk2wgeato4rfjjo6q"
+# aeolyus
+instance_compartment: "ocid1.tenancy.oc1..aaaaaaaatu5lebwfrgjkuh4fkohbelghz6sqtchok6omg2qnkugjybfltdra"
+memory_in_gbs: 6
+ocpus: 1
+config_profile_name: "aeolyus"
+
+# Different subnet than x86 because oci_network_subnet is not idempotent
+subnet_cidr: "10.0.1.0/24"
