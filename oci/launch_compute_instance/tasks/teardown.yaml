@@ -1,29 +1,35 @@
 - name: Terminate the instance
   oci_compute_instance:
+    config_profile_name: "{{ config_profile_name }}"
     id: "{{ instance_id }}"
     state: absent
 
 - name: Delete the subnet
   oci_network_subnet:
+    config_profile_name: "{{ config_profile_name }}"
     id: "{{ instance_subnet_id }}"
     state: absent
 
 - name: Delete the security list
   oci_network_security_list:
+    config_profile_name: "{{ config_profile_name }}"
     id: "{{ instance_security_list_ocid }}"
     state: absent
 
 - name: Delete the route table
   oci_network_route_table:
+    config_profile_name: "{{ config_profile_name }}"
     id: "{{ rt_id }}"
     state: absent
 
 - name: Delete the Internet Gateway
   oci_network_internet_gateway:
+    config_profile_name: "{{ config_profile_name }}"
     id: "{{ ig_id }}"
     state: absent
 
 - name: Delete the VCN
   oci_network_vcn:
+    config_profile_name: "{{ config_profile_name }}"
     vcn_id: "{{ vcn_id }}"
     state: absent

@@ -1,5 +1,6 @@
 - name: Launch a compute instance
   oci_compute_instance:
+    config_profile_name: "{{ config_profile_name }}"
     name: "{{ '-'.join((instance_hostname, instance_num)) }}"
     availability_domain: "{{ instance_ad }}"
     compartment_id: "{{ instance_compartment }}"
@@ -22,6 +23,7 @@
 
 - name: Get boot volume id from an existing instance
   oci_compute_boot_volume_attachment_facts:
+    config_profile_name: "{{ config_profile_name }}"
     availability_domain: "{{ instance_ad }}"
     compartment_id: "{{ instance_compartment }}"
     instance_id: "{{ instance_id }}"
@@ -31,5 +33,6 @@
 
 - name: Update instance boot volume VPU
   oci_blockstorage_boot_volume:
+    config_profile_name: "{{ config_profile_name }}"
     vpus_per_gb: 120
     boot_volume_id: "{{ boot_volume_id }}"

@@ -1,5 +1,6 @@
 - name: Create a VCN
   oci_network_vcn:
+    config_profile_name: "{{ config_profile_name }}"
     compartment_id: "{{ instance_compartment }}"
     display_name: "{{ vcn_name }}"
     cidr_block: "{{ vcn_cidr_block }}"
@@ -9,6 +10,7 @@
 
 - name: Create a new Internet Gateway
   oci_network_internet_gateway:
+    config_profile_name: "{{ config_profile_name }}"
     compartment_id: "{{ instance_compartment }}"
     vcn_id: "{{ vcn_id }}"
     name: "{{ ig_name }}"
@@ -20,6 +22,7 @@
 
 - name: Create route table to connect internet gateway to the VCN
   oci_network_route_table:
+    config_profile_name: "{{ config_profile_name }}"
     compartment_id: "{{ instance_compartment }}"
     vcn_id: "{{ vcn_id }}"
     name: "{{ route_table_name }}"
@@ -47,6 +50,7 @@
     name: loaded_egress
 - name: Create a security list for allowing access to public instance
   oci_network_security_list:
+    config_profile_name: "{{ config_profile_name }}"
     name: "{{ securitylist_name }}"
     compartment_id: "{{ instance_compartment }}"
     vcn_id: '{{ vcn_id }}'
@@ -58,6 +62,7 @@
 
 - name: Create a subnet to host the public instance. Link security_list and route_table.
   oci_network_subnet:
+    config_profile_name: "{{ config_profile_name }}"
     availability_domain: "{{ instance_ad }}"
     cidr_block: "{{ subnet_cidr }}"
     compartment_id: "{{ instance_compartment }}"
