@@ -25,7 +25,7 @@
 
         - name: Include vars for tenant aeolyus for arm machines
           include_vars:
-            file: vars/aeolyus-arm.yaml
+            file: vars/aeolyus-master-arm.yaml
 
         - name: Include vars for kubernetes master
           include_vars:
@@ -41,7 +41,7 @@
       block:
         - name: Include vars for tenant aeolyus for arm machines
           include_vars:
-            file: vars/aeolyus-arm.yaml
+            file: vars/aeolyus-worker-arm.yaml
 
         - name: Include vars for kubernetes worker
           include_vars:
@@ -50,5 +50,45 @@
         - name: Create arm compute instances
           include_tasks: tasks/main.yaml
           with_sequence: count=2
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant aeolyusplex for x86 machines
+          include_vars:
+            file: vars/aeolyusplex-worker-x86.yaml
+
+        - name: Create x86 compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=2
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant aeolyusplex for arm machines
+          include_vars:
+            file: vars/aeolyusplex-worker-arm.yaml
+
+        - name: Create arm compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=0 # San Jose currently has no more ARM VMs
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant starrydough for arm machines
+          include_vars:
+            file: vars/starrydough-worker-arm.yaml
+
+        - name: Create arm compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=4
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant starrydough for x86 machines
+          include_vars:
+            file: vars/starrydough-worker-x86.yaml
+
+        - name: Create x86 compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=1
           loop_control:
             loop_var: instance_num
