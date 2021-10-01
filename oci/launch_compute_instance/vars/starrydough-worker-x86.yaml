@@ -1,0 +1,10 @@
+instance_shape: "VM.Standard.E2.1.Micro"
+instance_hostname: "starrydough-worker-x86-instance-ansible"
+# Ubuntu 20.04 Minimal in us-phoenix-1
+# https://docs.oracle.com/en-us/iaas/images/image/19124c98-1c3e-42e4-8ea8-fa3977a33342/
+instance_image: "ocid1.image.oc1.phx.aaaaaaaasugogq2rv32d3zbpolvbvdgapjdwfgdzll6q3ctgtnqhkcns3b7a"
+# starrydough
+instance_compartment: "ocid1.tenancy.oc1..aaaaaaaaw3vgk7i2fa7afmbkxrn26hlxg4auluwszxj7d3mtinyub6psyo5q"
+memory_in_gbs: 1
+ocpus: 1
+config_profile_name: "starrydough"

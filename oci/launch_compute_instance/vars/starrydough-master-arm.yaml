@@ -1,0 +1,13 @@
+instance_shape: "VM.Standard.A1.Flex"
+instance_hostname: "starrydough-master-arm-instance-ansible"
+# Ubuntu 20.04 aarch64 in us-phoenix-1
+# https://docs.oracle.com/en-us/iaas/images/image/e29b572c-5e90-4c00-88c6-11e8cae0a8d4/
+instance_image: "ocid1.image.oc1.phx.aaaaaaaa37achzetqynl6qzdgkla44wyiktjqhh6xvgzk2wgeato4rfjjo6q"
+# starrydough
+instance_compartment: "ocid1.tenancy.oc1..aaaaaaaaw3vgk7i2fa7afmbkxrn26hlxg4auluwszxj7d3mtinyub6psyo5q"
+memory_in_gbs: 6
+ocpus: 1
+config_profile_name: "starrydough"
+
+# Different subnet than x86 because oci_network_subnet is not idempotent
+subnet_cidr: "10.0.1.0/24"
