@@ -1,7 +1,7 @@
 - name: Install dependencies
   become: yes
   package:
-    name: [git, wireguard, cargo, libclang-dev, libsqlite3-dev]
+    name: [git, wireguard, cargo, libclang-dev, libsqlite3-dev, sqlite3, rsync]
     state: present
     update_cache: true
     cache_valid_time: 3600
