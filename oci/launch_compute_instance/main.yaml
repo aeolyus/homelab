@@ -7,88 +7,83 @@
     - vars/network.yaml
 
   tasks:
-    - name: Create kubernetes master nodes
+    - name: Create innernet server
       block:
-        - name: Include vars for tenant aeolyus for x86 machines
+        - name: Include vars for innernet server
           include_vars:
-            file: vars/aeolyus-master-x86.yaml
+            file: vars/innernet-server.yaml
 
-        - name: Include vars for kubernetes master
+        - name: Include vars for tenant aeolyusplex for innernet server x86 machines
           include_vars:
-            file: vars/kubernetes-master.yaml
-
+            file: vars/aeolyusplex-innernet-server-x86.yaml
         - name: Create x86 compute instances
           include_tasks: tasks/main.yaml
           with_sequence: count=1
           loop_control:
             loop_var: instance_num
 
-        - name: Include vars for tenant aeolyus for arm machines
-          include_vars:
-            file: vars/aeolyus-master-arm.yaml
-
+    - name: Create kubernetes master nodes
+      block:
         - name: Include vars for kubernetes master
           include_vars:
             file: vars/kubernetes-master.yaml
 
-        - name: Create arm compute instances
+        - name: Include vars for tenant aeolyus for master x86 machines
+          include_vars:
+            file: vars/aeolyus-master-x86.yaml
+        - name: Create x86 compute instances
           include_tasks: tasks/main.yaml
-          with_sequence: count=2
+          with_sequence: count=1
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant starrydough for master x86 machines
+          include_vars:
+            file: vars/starrydough-master-x86.yaml
+        - name: Create x86 compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=1
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant aeolyusplex for master x86 machines
+          include_vars:
+            file: vars/aeolyusplex-worker-x86.yaml
+        - name: Create x86 compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=1
           loop_control:
             loop_var: instance_num
 
     - name: Create kubernetes worker nodes
       block:
-        - name: Include vars for tenant aeolyus for arm machines
-          include_vars:
-            file: vars/aeolyus-worker-arm.yaml
-
         - name: Include vars for kubernetes worker
           include_vars:
             file: vars/kubernetes-worker.yaml
 
-        - name: Create arm compute instances
-          include_tasks: tasks/main.yaml
-          with_sequence: count=2
-          loop_control:
-            loop_var: instance_num
-
-        - name: Include vars for tenant aeolyusplex for x86 machines
+        - name: Include vars for tenant aeolyus for worker arm machines
           include_vars:
-            file: vars/aeolyusplex-worker-x86.yaml
-
-        - name: Create x86 compute instances
-          include_tasks: tasks/main.yaml
-          with_sequence: count=2
-          loop_control:
-            loop_var: instance_num
-
-        - name: Include vars for tenant aeolyusplex for arm machines
-          include_vars:
-            file: vars/aeolyusplex-worker-arm.yaml
-
-        - name: Create arm compute instances
-          include_tasks: tasks/main.yaml
-          with_sequence: count=0 # San Jose currently has no more ARM VMs
-          loop_control:
-            loop_var: instance_num
-
-        - name: Include vars for tenant starrydough for arm machines
-          include_vars:
-            file: vars/starrydough-worker-arm.yaml
-
+            file: vars/aeolyus-worker-arm.yaml
         - name: Create arm compute instances
           include_tasks: tasks/main.yaml
           with_sequence: count=4
           loop_control:
             loop_var: instance_num
 
-        - name: Include vars for tenant starrydough for x86 machines
+        - name: Include vars for tenant aeolyusplex for worker arm machines
           include_vars:
-            file: vars/starrydough-worker-x86.yaml
-
-        - name: Create x86 compute instances
+            file: vars/aeolyusplex-worker-arm.yaml
+        - name: Create arm compute instances
           include_tasks: tasks/main.yaml
-          with_sequence: count=1
+          with_sequence: count=0 # San Jose currently has no more ARM VMs
+          loop_control:
+            loop_var: instance_num
+
+        - name: Include vars for tenant starrydough for worker arm machines
+          include_vars:
+            file: vars/starrydough-worker-arm.yaml
+        - name: Create arm compute instances
+          include_tasks: tasks/main.yaml
+          with_sequence: count=4
           loop_control:
             loop_var: instance_num
