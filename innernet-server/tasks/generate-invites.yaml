@@ -1,0 +1,31 @@
+- name: Check for existence of innernet peer "{{ peer.display_name }}"
+  shell: >
+    sqlite3 /var/lib/innernet-server/{{ innernet_interface_name }}.db
+    "SELECT * FROM peers WHERE name == '{{ peer.display_name }}';"
+  register: result
+  changed_when: false
+- set_fact:
+    peer_exists: "{{ result.stdout | length > 0 }}"
+    invite_path: "/tmp/{{ peer.display_name }}-innernet-invite.toml"
+
+- name: Generate innernet invite for "{{ peer.display_name }}"
+  become: yes
+  shell: >
+    innernet-server \
+    add-peer {{ innernet_interface_name }}
+    --auto-ip
+    --admin true
+    --cidr {{ innernet_cidr_name }}
+    --name {{ peer.display_name }}
+    --save-config {{ invite_path }}
+    --invite-expires 1d --yes
+  args:
+    creates: "{{ invite_path }}"
+  when: not peer_exists
+
+- name: Copy invite file to local
+  synchronize:
+    mode: pull
+    src: "{{ invite_path }}"
+    dest: "{{ invite_path }}"
+  when: not peer_exists

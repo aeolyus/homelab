@@ -24,6 +24,21 @@
   loop_control:
     loop_var: group
 
+- name: Get all nodes not connected to innernet
+  set_fact:
+    nodes_not_connected_to_innernet: "{{ groups['tag_innernet=true'] \
+                                       | map('extract', hostvars) \
+                                       | selectattr('innernet_ip', 'equalto', '') \
+                                       | list }}"
+
+- name: Generate invites
+  include_tasks: "generate-invites.yaml"
+  loop: "{{ nodes_not_connected_to_innernet }}"
+  loop_control:
+    loop_var: peer
+  vars:
+    innernet_cidr_name: "kube-nodes"
+
 - name: Enable interface systemctl service
   become: yes
   systemd:
