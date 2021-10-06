@@ -1,0 +1,5 @@
+dependencies:
+  - role: firewalld
+    vars:
+      firewalld_ports:
+        - "51820/udp" # wireguard

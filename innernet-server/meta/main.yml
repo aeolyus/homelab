@@ -1,0 +1,6 @@
+dependencies:
+  - role: firewalld
+    vars:
+      firewalld_ports:
+        - "51820/tcp" # innernet server
+        - "51820/udp" # wireguard
