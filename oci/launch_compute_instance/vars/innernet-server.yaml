@@ -1,3 +1,4 @@
 freeform_tags: {
   "innernet-server": "true",
+  "ansible": "true",
 }
