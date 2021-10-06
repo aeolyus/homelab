@@ -8,3 +8,10 @@
   changed_when: false
 - set_fact:
     innernet_ip: "{{ result.stdout }}"
+
+- name: Get hostname
+  shell: hostname
+  register: result
+  changed_when: false
+- set_fact:
+    hostname: "{{ result.stdout }}"

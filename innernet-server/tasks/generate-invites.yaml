@@ -1,14 +1,14 @@
-- name: Check for existence of innernet peer "{{ peer.display_name }}"
+- name: Check for existence of innernet peer "{{ peer.hostname }}"
   shell: >
     sqlite3 /var/lib/innernet-server/{{ innernet_interface_name }}.db
-    "SELECT * FROM peers WHERE name == '{{ peer.display_name }}';"
+    "SELECT * FROM peers WHERE name == '{{ peer.hostname }}';"
   register: result
   changed_when: false
 - set_fact:
     peer_exists: "{{ result.stdout | length > 0 }}"
-    invite_path: "/tmp/{{ peer.display_name }}-innernet-invite.toml"
+    invite_path: "/tmp/{{ peer.hostname }}-innernet-invite.toml"
 
-- name: Generate innernet invite for "{{ peer.display_name }}"
+- name: Generate innernet invite for "{{ peer.hostname }}"
   become: yes
   shell: >
     innernet-server \
@@ -16,7 +16,7 @@
     --auto-ip
     --admin true
     --cidr {{ innernet_cidr_name }}
-    --name {{ peer.display_name }}
+    --name {{ peer.hostname }}
     --save-config {{ invite_path }}
     --invite-expires 1d --yes
   args:

@@ -3,7 +3,7 @@
 
 - set_fact:
     innernet_connected: "{{ innernet_ip | length > 0 }}"
-    invite_path: "/tmp/{{ display_name }}-innernet-invite.toml"
+    invite_path: "/tmp/{{ hostname }}-innernet-invite.toml"
 
 - name: Copy invite from local to node
   copy:
