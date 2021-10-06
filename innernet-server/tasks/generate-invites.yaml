@@ -29,3 +29,9 @@
     src: "{{ invite_path }}"
     dest: "{{ invite_path }}"
   when: not peer_exists
+
+- name: Delete invite file on server
+  become: yes
+  file:
+    path: "{{ invite_path }}"
+    state: absent
