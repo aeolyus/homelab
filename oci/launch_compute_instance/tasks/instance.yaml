@@ -15,7 +15,7 @@
         assign_public_ip: True
         subnet_id: "{{ instance_subnet_id }}"
     metadata:
-        ssh_authorized_keys: "{{ lookup('file',  '~/batcave/homelab/oci/keys/ssh_authorized_keys') }}"
+        ssh_authorized_keys: "{{ lookup('file',  '~/.oci/keys/ssh_authorized_keys') }}"
     freeform_tags: "{{ freeform_tags | default({}) }}"
   register: result
 - set_fact:
