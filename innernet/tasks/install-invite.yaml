@@ -1,0 +1,31 @@
+- name: Get innernet ip
+  import_tasks: get_ip.yaml
+
+- set_fact:
+    innernet_connected: "{{ innernet_ip | length > 0 }}"
+    invite_path: "/tmp/{{ display_name }}-innernet-invite.toml"
+
+- name: Copy invite from local to node
+  copy:
+    src: "{{ invite_path }}"
+    dest: "{{ invite_path }}"
+  when: not innernet_connected
+
+- name: Delete invite file on local
+  delegate_to: localhost
+  file:
+    path: "{{ invite_path }}"
+    state: absent
+
+- name: Install innernet invites
+  become: yes
+  shell: innernet install {{ invite_path }} --default-name -d
+  args:
+    removes: "{{ invite_path }}"
+
+- name: Enable interface systemctl service
+  become: yes
+  systemd:
+    name: "innernet@{{ innernet_interface_name }}"
+    state: started
+    enabled: yes
