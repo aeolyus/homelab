@@ -1,0 +1,6 @@
+freeform_tags: {
+  "kubernetes": "true",
+  "kubernetes-initial-master": "true",
+  "innernet": "true",
+  "ansible": "true",
+}

@@ -24,9 +24,9 @@
 
     - name: Create kubernetes master nodes
       block:
-        - name: Include vars for kubernetes master
+        - name: Include vars for kubernetes initial master
           include_vars:
-            file: vars/kubernetes-master.yaml
+            file: vars/kubernetes-initial-master.yaml
 
         - name: Include vars for tenant aeolyus for master x86 machines
           include_vars:
@@ -36,6 +36,10 @@
           with_sequence: count=1
           loop_control:
             loop_var: instance_num
+
+        - name: Include vars for kubernetes master
+          include_vars:
+            file: vars/kubernetes-master.yaml
 
         - name: Include vars for tenant starrydough for master x86 machines
           include_vars:
